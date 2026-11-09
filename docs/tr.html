@@ -1,0 +1,1347 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Oksimetre Tezgâh Rehberi</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Barlow+Semi+Condensed:wght@600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column with a sticky section bar; diagrams and tables scroll inside their own boxes. */
+:root {
+  --bg: #f2f4f1;
+  --surface: #ffffff;
+  --ink: #1b2420;
+  --muted: #56665e;
+  --line: #d3dbd5;
+  --accent: #a9531f;      /* copper */
+  --mask: #1d6a4e;        /* solder-mask green */
+  --mask-soft: #e3eee8;
+  --warn: #9a5b00;
+  --warn-soft: #fbf0dc;
+  --stop: #b3261e;
+  --stop-soft: #fbe5e2;
+  --ok: #1f7a3f;
+  --code-bg: #e9eeea;
+  --w5: #d0352b; --w33: #e08600; --wg: #2a2a2a; --wsda: #2b66d1; --wscl: #c9a200; --wint: #24944a;
+  --bb: #f7f6ef; --bb-gap: #e7e5da; --hole: #9a998f;
+  --skin: #f0c9a8; --skin-line: #c99572; --nail: #f7e2d6; --card: #d9b98c; --card-line: #b08f61; --velcro: #3d4a8c; --tapec: #161616; --table: #ebe6dc; --ir: #8b3fb0; --refox: #2f6fb3;
+  --font-display: "Barlow Semi Condensed", "Arial Narrow", Arial, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", Consolas, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111714; --surface: #18201c; --ink: #e5ece7; --muted: #9db0a6; --line: #2d3a33;
+    --accent: #e48b55; --mask: #5cc39a; --mask-soft: #1d2d26; --warn: #f0b24f; --warn-soft: #2e2617;
+    --stop: #ff8a80; --stop-soft: #331c1a; --ok: #6fd18f; --code-bg: #212b26;
+    --w5: #ff6a5c; --w33: #ffb03d; --wg: #c9d2cc; --wsda: #74a6ff; --wscl: #f0d44a; --wint: #63d483;
+    --bb: #252b27; --bb-gap: #1d221f; --hole: #6c736e;
+    --skin: #c99a7a; --skin-line: #8f6247; --nail: #e3c9b9; --card: #8a6d47; --card-line: #6b5232; --velcro: #6f7fd1; --tapec: #000000; --table: #1f2622; --ir: #c27ae6; --refox: #4f8fd6;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111714; --surface: #18201c; --ink: #e5ece7; --muted: #9db0a6; --line: #2d3a33;
+  --accent: #e48b55; --mask: #5cc39a; --mask-soft: #1d2d26; --warn: #f0b24f; --warn-soft: #2e2617;
+  --stop: #ff8a80; --stop-soft: #331c1a; --ok: #6fd18f; --code-bg: #212b26;
+  --w5: #ff6a5c; --w33: #ffb03d; --wg: #c9d2cc; --wsda: #74a6ff; --wscl: #f0d44a; --wint: #63d483;
+  --bb: #252b27; --bb-gap: #1d221f; --hole: #6c736e;
+  --skin: #c99a7a; --skin-line: #8f6247; --nail: #e3c9b9; --card: #8a6d47; --card-line: #6b5232; --velcro: #6f7fd1; --tapec: #000000; --table: #1f2622; --ir: #c27ae6; --refox: #4f8fd6;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.6; }
+.wrap { max-width: 860px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 64px; }
+header.top { padding-block: 40px 24px; border-bottom: 1px solid var(--line); }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--mask); }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.15; }
+h1 { font-size: clamp(34px, 6vw, 52px); margin: 8px 0 12px; }
+h2 { font-size: 32px; margin: 0 0 12px; display: flex; align-items: baseline; gap: 12px; }
+h2 .n { font-family: var(--font-mono); font-size: 15px; color: var(--accent); font-weight: 600; }
+h3 { font-size: 22px; margin: 28px 0 8px; }
+p { margin: 0 0 14px; max-width: 68ch; }
+.lead { font-size: 19px; color: var(--muted); }
+section { padding-block: 40px 8px; border-bottom: 1px solid var(--line); scroll-margin-top: 64px; }
+a { color: var(--mask); }
+code, kbd, .mono { font-family: var(--font-mono); font-size: .88em; }
+code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+kbd { border: 1px solid var(--line); border-bottom-width: 2px; padding: 0 6px; border-radius: 4px; background: var(--surface); }
+pre { background: var(--code-bg); padding: 14px 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 14px; line-height: 1.5; margin: 0 0 16px; }
+ul, ol { padding-left: 22px; margin: 0 0 14px; }
+li { margin: 4px 0; }
+li > ul { margin-top: 4px; }
+
+/* sticky section bar */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+nav.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line); }
+nav.bar .in { max-width: 860px; margin: 0 auto; display: flex; gap: 4px; overflow-x: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 8px; scrollbar-width: thin; }
+nav.bar a { flex: none; font-family: var(--font-mono); font-size: 13px; text-decoration: none; color: var(--muted); padding: 6px 10px; border-radius: 6px; white-space: nowrap; }
+nav.bar a:hover, nav.bar a:focus-visible { background: var(--mask-soft); color: var(--ink); }
+
+/* callouts */
+.note, .warn, .stop { border-radius: 8px; padding: 12px 16px; margin: 0 0 16px; }
+.note { background: var(--mask-soft); }
+.warn { background: var(--warn-soft); }
+.stop { background: var(--stop-soft); }
+.note strong:first-child, .warn strong:first-child, .stop strong:first-child { font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; display: block; margin-bottom: 2px; }
+.note strong:first-child { color: var(--mask); }
+.warn strong:first-child { color: var(--warn); }
+.stop strong:first-child { color: var(--stop); }
+.note p:last-child, .warn p:last-child, .stop p:last-child, .note ul:last-child, .warn ul:last-child, .stop ul:last-child { margin-bottom: 0; }
+
+/* tables */
+.tbl { overflow-x: auto; margin: 0 0 18px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+th { font-family: var(--font-mono); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: var(--bg); }
+tr:last-child td { border-bottom: none; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* part cards */
+.parts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); gap: 14px; margin-bottom: 16px; }
+.part { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; min-width: 0; }
+.part h3 { margin: 0 0 2px; font-size: 21px; }
+.part .qty { font-family: var(--font-mono); font-size: 12px; color: var(--accent); margin-bottom: 8px; }
+.part dl { margin: 0; display: grid; gap: 6px; }
+.part dt { font-family: var(--font-mono); font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.part dd { margin: 0 0 4px; font-size: 15.5px; }
+
+/* wire chips */
+.wc { display: inline-block; width: 22px; height: 6px; border-radius: 3px; vertical-align: middle; margin-right: 6px; }
+.k5 { background: var(--w5); } .k33 { background: var(--w33); } .kg { background: var(--wg); }
+.ksda { background: var(--wsda); } .kscl { background: var(--wscl); } .kint { background: var(--wint); }
+
+/* diagram */
+.diagram { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px; margin: 0 0 8px; }
+.diagram svg { display: block; width: 100%; min-width: 760px; height: auto; font-family: var(--font-mono); }
+.caption { font-size: 14px; color: var(--muted); margin-bottom: 18px; }
+.bb-body { fill: var(--bb); stroke: var(--line); stroke-width: 1.5; }
+.bb-gap { fill: var(--bb-gap); }
+.hole { fill: var(--hole); opacity: .55; }
+.rp { stroke: var(--w5); stroke-width: 2; }
+.rn { stroke: var(--wsda); stroke-width: 2; }
+.lab-b { fill: var(--ink); font-size: 18px; font-weight: 600; }
+.lab-s { fill: var(--ink); font-size: 14px; }
+.lab-xs { fill: var(--muted); font-size: 12px; }
+.lab-xxs { fill: var(--ink); font-size: 9.5px; }
+.t5 { fill: var(--w5); font-weight: 600; } .t33 { fill: var(--w33); font-weight: 600; } .tg { fill: var(--muted); font-weight: 600; }
+.uno { fill: var(--mask-soft); stroke: var(--mask); stroke-width: 2; }
+.pin { fill: var(--surface); stroke: var(--ink); stroke-width: 1.2; }
+.usb { fill: var(--surface); stroke: var(--muted); stroke-width: 1.5; }
+.ls { fill: var(--mask); opacity: .9; }
+.inv { fill: var(--bg); }
+.halo { paint-order: stroke; stroke: var(--bb); stroke-width: 5px; stroke-linejoin: round; }
+.lspin { fill: var(--accent); }
+.leg { stroke: var(--muted); stroke-width: 2; }
+.ecap { fill: var(--wsda); opacity: .85; }
+.ecap-stripe { fill: var(--surface); opacity: .8; }
+.ccap { fill: var(--w33); }
+.holder { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 6 5; }
+.mod { fill: var(--wg); opacity: .92; }
+.chip { fill: var(--accent); }
+.w { fill: none; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.end { stroke: none; }
+.fm { stroke-dasharray: 9 5; }
+.end.fm { stroke-dasharray: none; }
+.c5 { stroke: var(--w5); } .end.c5 { fill: var(--w5); }
+.c33 { stroke: var(--w33); } .end.c33 { fill: var(--w33); }
+.cg { stroke: var(--wg); } .end.cg { fill: var(--wg); }
+.csda { stroke: var(--wsda); } .end.csda { fill: var(--wsda); }
+.cscl { stroke: var(--wscl); } .end.cscl { fill: var(--wscl); }
+.cint { stroke: var(--wint); } .end.cint { fill: var(--wint); }
+
+/* setup illustrations */
+.diagram svg.illus { font-family: var(--font-body); min-width: 640px; }
+.v-line { stroke: var(--muted); stroke-width: 2; fill: none; }
+.w-thin { fill: none; stroke-width: 2.4; stroke-linecap: round; }
+.tape-solid { fill: var(--tapec); opacity: .85; }
+.card { fill: var(--card); stroke: var(--card-line); stroke-width: 1.5; }
+.pcb { fill: var(--wg); }
+.pinmetal { fill: var(--muted); }
+.housing { fill: var(--tapec); }
+.glass { fill: var(--accent); }
+.skin { fill: var(--skin); stroke: var(--skin-line); stroke-width: 2; }
+.skin-flat { fill: var(--skin); }
+.nail { fill: var(--nail); stroke: var(--skin-line); stroke-width: 1; }
+.ray { fill: none; stroke-width: 3; stroke-linecap: round; }
+.ray.red { stroke: var(--w5); }
+.ray.ir { stroke: var(--ir); stroke-dasharray: 6 4; }
+.tape { fill: var(--tapec); opacity: .35; }
+.velcro { fill: var(--velcro); opacity: .9; }
+.lead { fill: none; stroke: var(--muted); stroke-width: 1.2; }
+.dot { fill: var(--accent); }
+.halo2 { paint-order: stroke; stroke: var(--surface); stroke-width: 5px; stroke-linejoin: round; }
+.tablesurf { fill: var(--table); }
+.lap { fill: var(--surface); stroke: var(--ink); stroke-width: 2; }
+.screen { fill: var(--code-bg); }
+.trace { fill: none; stroke-width: 2; }
+.trace.red { stroke: var(--w5); }
+.trace.ir { stroke: var(--ir); }
+.cable { fill: none; stroke: var(--muted); stroke-width: 4; stroke-linecap: round; }
+.uno-b { fill: var(--mask); }
+.bb-b { fill: var(--bb); stroke: var(--line); stroke-width: 1.5; }
+.refox { fill: var(--refox); }
+.refscreen { fill: var(--tapec); }
+.refdigits { fill: #7dff9b; font-family: var(--font-mono); }
+.person { fill: var(--accent); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: var(--muted); margin: 0 0 16px; }
+.protocol { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 10px; margin: 0 0 16px; }
+.protocol div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+.protocol b { font-family: var(--font-display); font-size: 19px; display: block; }
+.protocol .t { font-family: var(--font-mono); font-size: 12px; color: var(--accent); }
+.protocol p { font-size: 14.5px; margin: 4px 0 0; }
+
+/* checklists */
+.check { list-style: none; padding: 0; margin: 0 0 18px; display: grid; gap: 6px; }
+.check li { margin: 0; }
+.check label { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; padding: 8px 12px; border-radius: 8px; background: var(--surface); border: 1px solid var(--line); cursor: pointer; }
+.check input { width: 18px; height: 18px; margin: 4px 0 0; accent-color: var(--mask); }
+.check input:checked + span { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--line); }
+.check .sub { display: block; font-size: 14.5px; color: var(--muted); text-decoration: none; }
+.progress { font-family: var(--font-mono); font-size: 13px; color: var(--muted); margin: -4px 0 12px; }
+
+/* bring-up steps */
+.steps { counter-reset: st; display: grid; gap: 14px; margin-bottom: 16px; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; min-width: 0; }
+.step h3 { margin: 0 0 6px; display: flex; gap: 10px; align-items: baseline; }
+.step h3::before { counter-increment: st; content: counter(st); font-family: var(--font-mono); font-size: 14px; color: var(--bg); background: var(--mask); border-radius: 50%; min-width: 26px; height: 26px; display: inline-grid; place-items: center; }
+.step .t10 { font-family: var(--font-mono); font-size: 12px; color: var(--accent); margin-left: auto; white-space: nowrap; }
+.expect { border-left: 3px solid var(--ok); padding-left: 12px; margin: 8px 0 12px; }
+.expect b { color: var(--ok); font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; display: block; }
+
+/* troubleshooting */
+.finder { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
+.finder input { flex: 1 1 260px; min-width: 0; font: inherit; font-size: 16px; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.finder input:focus-visible, .chips button:focus-visible, .check input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips button { font-family: var(--font-mono); font-size: 12.5px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); cursor: pointer; }
+.chips button[aria-pressed="true"] { background: var(--mask); border-color: var(--mask); color: var(--bg); }
+.issue { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; margin-bottom: 8px; }
+.issue summary { cursor: pointer; padding: 12px 16px; font-weight: 700; list-style: none; display: flex; gap: 10px; align-items: baseline; }
+.issue summary::-webkit-details-marker { display: none; }
+.issue summary::before { content: "+"; font-family: var(--font-mono); color: var(--accent); width: 12px; flex: none; }
+.issue[open] summary::before { content: "–"; }
+.issue .tag { margin-left: auto; font-family: var(--font-mono); font-size: 11px; font-weight: 400; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+.issue .body { padding: 0 16px 12px 38px; }
+.issue .body p, .issue .body ol, .issue .body ul { font-size: 15.5px; }
+.empty { color: var(--muted); font-style: italic; }
+
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 14px; }
+.two > div { min-width: 0; }
+footer { padding-block: 28px; color: var(--muted); font-size: 14px; }
+@media (max-width: 520px) { body { font-size: 16px; } h2 { font-size: 27px; } .issue .body { padding-left: 16px; } }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+</style>
+</head>
+<body>
+<nav class="bar" aria-label="Bölümler"><div class="in">
+  <a href="#setup">Bitmiş düzen</a>
+  <a href="#before">Günden önce</a>
+  <a href="#parts">Parçalar</a>
+  <a href="#skills">Temel beceriler</a>
+  <a href="#wiring">Kablolama</a>
+  <a href="#holder">Parmak tutucu</a>
+  <a href="#bringup">İlk çalıştırma</a>
+  <a href="#firmware">Yazılımı kullanma</a>
+  <a href="#record">Kayıt</a>
+  <a href="#trouble">Sorun giderme</a>
+  <a href="#safety">Güvenlik</a>
+  <a href="#words">Terimler</a>
+</div></nav>
+
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">MAX30102 + Arduino Uno · İlerleme Raporu 3, Bölüm 2.7–2.8</div>
+  <h1>Oksimetre Tezgâh Rehberi</h1>
+  <p class="lead">Montaj günü üçümüzün ihtiyaç duyacağı her şey: her parça nedir, her kablo nereye gider, sistemi hangi sırayla çalıştırırız, hangi kodu yükleriz ve bir şey çalışmazsa ne yaparız.</p>
+  <p>Kodlar <code>pulse_oximeter</code> klasöründe: <code>firmware/</code> içinde üç Arduino sketch'i, <code>matlab/</code> içinde iki MATLAB betiği. Kablolama ve test sırası raporun Şekil 5 ve Tablo 10'undan gelir; bu rehber pratik ayrıntıları ekler. İngilizce sürümle aynı içeriktedir.</p>
+  <p class="mono" style="font-size:13px">English: <a href="index.html">Oximeter Bench Guide</a></p>
+  <div class="two">
+    <div class="note"><strong>Tek satırda gün</strong><p>Pinleri lehimle → USB takılı değilken breadboard'u kur → kısa devre kontrolü → aşama aşama çalıştır (Tablo 10) → ayarla → 60 s kayıt al.</p></div>
+    <div class="note"><strong>Üç rol, her saat değişin</strong><p><b>Kurucu</b> parçalarla uğraşır. <b>Kontrolcü</b> rehberi yüksek sesle okur ve her kabloyu tabloyla karşılaştırır. <b>Operatör</b> bilgisayarı kullanır: yükleme, Serial Monitor, MATLAB.</p></div>
+  </div>
+</header>
+
+<!-- ============================================================ -->
+<section id="setup">
+  <h2><span class="n">00</span>Bitmiş düzen</h2>
+  <p>Her şey çalıştığında görünüm: sensör bir parmak ucunun altında, referans oksimetre yanındaki parmakta, veriler dizüstü bilgisayarda.</p>
+  <div class="diagram"><svg class="illus" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="vst"><title id="vst">Yandan görünüm: parmak ucu sensörün üzerinde</title><line x1="20" y1="380" x2="880" y2="380" class="v-line"/><text x="870" y="402" class="lab-xs" text-anchor="end">masa</text><polyline points="428,350 428,366 40,366" class="w-thin c33"/><polyline points="430,350 430,369 40,369" class="w-thin cg"/><polyline points="432,350 432,372 40,372" class="w-thin csda"/><polyline points="434,350 434,375 40,375" class="w-thin cscl"/><polyline points="436,350 436,378 40,378" class="w-thin cint"/><rect x="330" y="358" width="34" height="26" rx="2" class="tape-solid"/><rect x="180" y="358" width="34" height="26" rx="2" class="tape-solid"/><text x="40" y="350" class="lab-xs">kablo şeridi masaya bantlı, 10 cm sonra breadboard</text><rect x="450" y="300" width="160" height="80" rx="3" class="card"/><text x="530" y="346" class="lab-xs" text-anchor="middle">taban bloğu</text><rect x="418" y="290" width="204" height="10" rx="2" class="pcb"/><rect x="429" y="300" width="3" height="18" class="pinmetal"/><rect x="422" y="318" width="16" height="32" rx="2" class="housing"/><rect x="490" y="281" width="60" height="9" rx="2" class="glass"/><path d="M 900 188 L 560 188 Q 470 190 452 236 Q 446 280 506 282 L 900 282 Z" class="skin"/><path d="M 478 206 Q 515 184 585 190 L 585 197 Q 520 193 486 214 Z" class="nail"/><path d="M 500 281 C 500 238, 540 238, 540 281" class="ray red"/><path d="M 496 281 C 492 214, 548 214, 544 281" class="ray ir"/><rect x="460" y="262" width="150" height="40" rx="8" class="tape"/><rect x="574" y="176" width="22" height="210" rx="9" class="velcro"/><polyline points="520,268 630,70" class="lead"/><circle cx="520" cy="268" r="3" class="dot"/><text x="636" y="74" class="lab-s halo2" text-anchor="start">parmak ucu cam pencereye düz yaslanır</text><polyline points="585,200 660,110" class="lead"/><circle cx="585" cy="200" r="3" class="dot"/><text x="666" y="114" class="lab-s halo2" text-anchor="start">cırt bant: sıkı ama sıkmadan</text><polyline points="605,285 690,150" class="lead"/><circle cx="605" cy="285" r="3" class="dot"/><text x="696" y="154" class="lab-s halo2" text-anchor="start">yanlarda siyah bant</text><polyline points="470,295 300,150" class="lead"/><circle cx="470" cy="295" r="3" class="dot"/><text x="294" y="154" class="lab-s halo2" text-anchor="end">modül, pencere yukarı</text><polyline points="431,330 300,210" class="lead"/><circle cx="431" cy="330" r="3" class="dot"/><text x="294" y="214" class="lab-s halo2" text-anchor="end">pinler bloğun kenarından sarkar</text><polyline points="520,236 300,60" class="lead"/><circle cx="520" cy="236" r="3" class="dot"/><text x="294" y="64" class="lab-s halo2" text-anchor="end">kırmızı ve IR ışık girer ve saçılır;</text><text x="294" y="82" class="lab-xs halo2" text-anchor="end">bir kısmı dedektöre geri döner</text></svg></div>
+  <div class="caption">Yandan görünüm. Parmak ucunun yumuşak kısmı cam pencereye yaslanır. Kırmızı ve kızılötesi ışık parmağa girer, saçılır ve bir kısmı LED'lerin yanındaki dedektöre geri döner (yansımalı PPG, Bölüm 1.1). Cırt bant parmağı sabit bir basınçla tutar, siyah bant oda ışığını keser.</div>
+  <div class="diagram"><svg class="illus" viewBox="0 0 1000 690" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="vtt"><title id="vtt">Üstten görünüm: test masası</title><rect x="20" y="20" width="960" height="560" rx="16" class="tablesurf"/><rect x="60" y="50" width="300" height="180" rx="8" class="lap"/><rect x="74" y="64" width="272" height="152" rx="3" class="screen"/><polyline points="84,170 104,170 112,135 120,190 128,166 152,170 172,170 180,135 188,190 196,166 220,170 240,170 248,135 256,190 264,166 288,170 336,170" class="trace ir"/><polyline points="84,122 104,122 112,104 120,132 128,119 152,122 172,122 180,104 188,132 196,119 220,122 240,122 248,104 256,132 264,119 288,122 336,122" class="trace red"/><text x="84" y="86" class="lab-xs">t = 30 s   HR 72   SpO2 96.4</text><path d="M 50 236 L 370 236 L 390 290 L 30 290 Z" class="lap"/><text x="210" y="316" class="lab-s" text-anchor="middle">dizüstü pilde: Serial Plotter / MATLAB</text><path d="M 330 262 C 380 262, 390 170, 430 168" class="cable"/><rect x="430" y="120" width="130" height="95" rx="8" class="uno-b"/><text x="495" y="172" class="lab-s inv" text-anchor="middle">Arduino Uno</text><path d="M 470 214 L 470 262" class="w-thin csda"/><path d="M 484 214 L 484 262" class="w-thin cscl"/><path d="M 498 214 L 498 262" class="w-thin cint"/><path d="M 512 214 L 512 262" class="w-thin c5"/><path d="M 526 214 L 526 262" class="w-thin cg"/><path d="M 540 214 L 540 262" class="w-thin c33"/><rect x="440" y="250" width="200" height="90" rx="6" class="bb-b"/><rect x="500" y="282" width="46" height="26" rx="2" class="ls"/><circle cx="590" cy="300" r="7" class="ecap"/><ellipse cx="610" cy="300" rx="6" ry="4" class="ccap"/><text x="540" y="364" class="lab-s" text-anchor="middle">breadboard elin hemen yanında</text><rect x="600" y="520" width="56" height="130" rx="28" transform="rotate(-38 628 585)" class="skin"/><rect x="660" y="490" width="250" height="210" rx="60" class="skin"/><rect x="690" y="340" width="40" height="180" rx="20.0" class="skin"/><rect x="697" y="346" width="26" height="24" rx="6" class="nail"/><rect x="752" y="300" width="42" height="220" rx="21.0" class="skin"/><rect x="759" y="306" width="28" height="25" rx="6" class="nail"/><rect x="812" y="330" width="40" height="190" rx="20.0" class="skin"/><rect x="819" y="336" width="26" height="24" rx="6" class="nail"/><rect x="866" y="390" width="34" height="130" rx="17.0" class="skin"/><rect x="873" y="396" width="20" height="20" rx="6" class="nail"/><rect x="660" y="498" width="250" height="40" class="skin-flat"/><rect x="674" y="326" width="72" height="76" rx="6" class="card"/><rect x="690" y="340" width="40" height="180" rx="20.0" class="skin"/><rect x="684" y="350" width="52" height="36" rx="6" class="tape"/><rect x="678" y="360" width="64" height="14" rx="5" class="velcro"/><path d="M 678 330 C 668 318, 652 336, 632 330" class="w-thin c33"/><path d="M 681 330 C 668 318, 655 336, 634 330" class="w-thin cg"/><path d="M 684 330 C 668 318, 658 336, 636 330" class="w-thin csda"/><path d="M 687 330 C 668 318, 661 336, 638 330" class="w-thin cscl"/><path d="M 690 330 C 668 318, 664 336, 640 330" class="w-thin cint"/><rect x="742" y="296" width="62" height="72" rx="12" class="refox"/><rect x="752" y="306" width="42" height="30" rx="3" class="refscreen"/><text x="773" y="326" class="lab-xs refdigits" text-anchor="middle">96 72</text><polyline points="712,380 470,440" class="lead"/><circle cx="712" cy="380" r="3" class="dot"/><text x="464" y="444" class="lab-s halo2" text-anchor="end">bizim sensör işaret parmağında</text><polyline points="790,300 840,110" class="lead"/><circle cx="790" cy="300" r="3" class="dot"/><text x="834" y="114" class="lab-s halo2" text-anchor="end">ARTIMED referans orta parmakta</text><polyline points="650,333 470,410" class="lead"/><circle cx="650" cy="333" r="3" class="dot"/><text x="464" y="414" class="lab-s halo2" text-anchor="end">10 cm kablo şeridi, bantlı</text><polyline points="700,520 600,490" class="lead"/><circle cx="700" cy="520" r="3" class="dot"/><text x="594" y="494" class="lab-s halo2" text-anchor="end">el sabit, avuç içi aşağı</text><circle cx="60" cy="625" r="20" class="person"/><text x="60" y="630" class="lab-s inv" text-anchor="middle">O</text><text x="90" y="623" class="lab-s">Operatör</text><text x="90" y="641" class="lab-xs">MATLAB'ı çalıştırır, her durumu başlatır</text><circle cx="330" cy="625" r="20" class="person"/><text x="330" y="630" class="lab-s inv" text-anchor="middle">K</text><text x="360" y="623" class="lab-s">Kaydedici</text><text x="360" y="641" class="lab-xs">ARTIMED'i her 10 s'de okur</text><text x="40" y="530" class="lab-xs">Lamba ve pencere gönüllünün arkasında olsun, elin üstünde değil.</text><text x="40" y="550" class="lab-xs">Sonraki gönüllü: iki parmağı yer değiştirin ya da diğer eli kullanın.</text><text x="600" y="670" class="lab-s" text-anchor="end">Gönüllü: oturur, konuşmaz, kıpırdamaz</text></svg></div>
+  <div class="caption">Test masasının üstten görünümü. İki cihaz da aynı eldedir (Bölüm 2.6), böylece aynı nabzı görürler. Sensör kabloları yalnızca 10 cm olduğu için breadboard elin hemen yanındadır.</div>
+
+  <h3>Bir gönüllü, baştan sona</h3>
+  <ol>
+    <li><b>Ölçümden önce:</b> neyin ölçüleceğini ve istediği an bırakabileceğini anlatın, onay alın, bir kod verin (S01, S02…), ten rengini açık/orta/koyu ölçeğinde not edin. İki parmakta oje veya takma tırnak olmasın.</li>
+    <li><b>Oturtun:</b> sağ el avuç içi aşağı masada dursun. Sensör işaret parmağına, ARTIMED orta parmağa. İkisinin de oturması için 30 s bekleyin.</li>
+    <li><b>Tablo 6'daki dört durumu kaydedin</b>, her biri 150 s. Operatör <code>record_session.m</code> içindeki <code>state</code> değerini ayarlar ve başlatır. MATLAB her 10 s işareti bastığında Kaydedici ARTIMED'in SpO₂ ve nabız değerini yazar. Her durumun ilk okuması daha sonra atılır.</li>
+    <li><b>Sonraki gönüllü:</b> parmakların yerini değiştirin (ya da sol eli kullanın), böylece parmaklar arasındaki fark cihaz hatası gibi görünmez.</li>
+  </ol>
+  <div class="protocol">
+    <div><span class="t">durum 1 · 150 s</span><b>Dinlenme</b><p>El düz ve hareketsiz, konuşma yok.</p></div>
+    <div><span class="t">durum 2 · 150 s</span><b>Hafif aktivite sonrası</b><p>Kısa bir esneme, sonra oturup ölçüm.</p></div>
+    <div><span class="t">durum 3 · 150 s</span><b>Parmak hareketi</b><p>Ölçüm sırasında parmak belirli bir düzende yavaşça oynatılır.</p></div>
+    <div><span class="t">durum 4 · 2 × 150 s</span><b>Ortam ışığı</b><p>Oda ışığı açık; bir kez siyah bant örtüsüyle, bir kez örtüsüz.</p></div>
+  </div>
+  <div class="note"><strong>Kalibrasyon ayrımı</strong><p>SpO₂ eğrisini oluşturmak için verisi kullanılan gönüllüler, doğruluğu test etmek için kullanılmaz (Bölüm 2.6). İlk testten önce hangi kodların hangi grupta olacağına karar verin.</p></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="before">
+  <h2><span class="n">01</span>Günden önce</h2>
+  <p>Bunların hepsini evde, yanınızda getireceğiniz bilgisayarda yapın. Her kutu işaretini kendi tarayıcınızda hatırlar.</p>
+  <div class="progress" id="prog-before"></div>
+  <ul class="check" data-list="before">
+    <li><label><input type="checkbox" id="b1"><span>Arduino IDE 2'yi arduino.cc/en/software adresinden kurun<span class="sub">Varsayılan seçenekler yeterli. Uno'nun ihtiyaç duyduğu "Arduino AVR Boards" paketini de kurar.</span></span></label></li>
+    <li><label><input type="checkbox" id="b2"><span>Uno'yu bilgisayara takın ve göründüğünü kontrol edin<span class="sub">Arduino IDE → Tools → Port. Klon kart bir COM portu olarak görünür (çoğunlukla "USB-SERIAL CH340"); orijinal kart "Arduino Uno" olarak. Hiçbir şey çıkmıyorsa Sorun giderme → "COM portu görünmüyor".</span></span></label></li>
+    <li><label><input type="checkbox" id="b3"><span>Yüklemenin çalıştığını görmek için Blink'i yükleyin<span class="sub">File → Examples → 01.Basics → Blink. Tools → Board → Arduino AVR Boards → Arduino Uno. → (Upload) okuna tıklayın. Uno üzerindeki küçük "L" LED'i saniyede bir yanıp sönmeli.</span></span></label></li>
+    <li><label><input type="checkbox" id="b4"><span>Üç sketch'i açıp her birinde Verify (✓) tıklayın<span class="sub"><code>step1_i2c_scanner</code>, <code>step2_sensor_check</code>, <code>oximeter_main</code>. Her biri "Done compiling" ile ve kırmızı hata olmadan bitmeli. Bunun için hiçbir şey bağlı olmak zorunda değil.</span></span></label></li>
+    <li><label><input type="checkbox" id="b5"><span>MATLAB'ın COM portu açabildiğini kontrol edin<span class="sub">Masaüstü MATLAB, R2019b veya daha yenisi gerekir (<code>serialport</code>). MATLAB Online USB portlarına erişemez. Uno takılıyken MATLAB'da <code>serialportlist</code> yazın: COM portunuz listede olmalı.</span></span></label></li>
+    <li><label><input type="checkbox" id="b6"><span>Kutuları açıp her parçayı 02. bölümle tanıyın<span class="sub">Adetleri Tablo 9 ile karşılaştırın. Küçük parçaları (kondansatörler, dirençler) etiketli bir poşette tutun.</span></span></label></li>
+    <li><label><input type="checkbox" id="b7"><span>Okulda lehim istasyonu için yer ayırtın<span class="sub">Modülün 7 pini ve seviye dönüştürücünün 12 pini için gerekli. Yeni başlayanlar için 30–45 dakika.</span></span></label></li>
+    <li><label><input type="checkbox" id="b8"><span>Parmak tutucunun tabanını hazırlayın (05. bölüm)<span class="sub">Küçük, sert bir blok: katlanmış karton, kibrit kutusu ya da köpük levha parçası, yaklaşık 4 × 4 × 2 cm.</span></span></label></li>
+    <li><label><input type="checkbox" id="b9"><span>Çantayı hazırlayın<span class="sub">Uno + USB kablosu, tüm parçalar, multimetre, siyah bant, cırt bant, makas, kalem, taban bloğu, şarjı dolu bilgisayar, bu rehber.</span></span></label></li>
+  </ul>
+</section>
+
+<!-- ============================================================ -->
+<section id="parts">
+  <h2><span class="n">02</span>Parçaları tanıyın</h2>
+  <p>Her parça için: neye benzer, devremizdeki görevi, nasıl kullanılır ve kaçınılması gereken tek hata.</p>
+  <div class="parts">
+    <article class="part">
+      <h3>Arduino Uno R3</h3><div class="qty">1 · beyin · elimizdeki ya da CH340 klon</div>
+      <dl>
+        <dt>Görünüş</dt><dd>Kredi kartı boyutunda mavi (veya siyah) kart. Kare USB-B girişi, yuvarlak güç jakı ve kenarlarda iki uzun sıra siyah soket (header) var. Pin adları soketlerin yanında yazılı.</dd>
+        <dt>Görevi</dt><dd>Sensörü I²C üzerinden okur, filtreleri ve atım tespitini çalıştırır, sayıları USB ile bilgisayara gönderir.</dd>
+        <dt>Kullandığımız pinler</dt><dd><code>5V</code>, <code>3.3V</code>, iki <code>GND</code> (güç soketi, <code>VIN</code>'in yanında); <code>A4</code> = SDA ve <code>A5</code> = SCL (analog soket); <code>D2</code> (dijital soket, sadece "2" yazar).</dd>
+        <dt>Kaçının</dt><dd>D0/D1'e asla bir şey bağlamayın (USB verisini taşırlar), 5V'yi asla 3.3V'ye bağlamayın. Her şeye USB kablosu güç verir; pil veya adaptör gerekmez.</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>MAX30102 modülü</h3><div class="qty">2 · sensör · biri yedek</div>
+      <dl>
+        <dt>Görünüş</dt><dd>Küçük siyah kart (yaklaşık 2 × 1,5 cm). Bir yüzünde cam pencereli minik siyah bir dikdörtgen var: iki LED'i ve fotodedektörüyle MAX30102 çipi budur. Bir kenarında 7 delik: <code>VIN GND SDA SCL INT IRD RD</code> (geçerli olan, kartınızda yazan sıradır).</dd>
+        <dt>Görevi</dt><dd>Parmak ucuna kırmızı (660 nm) ve kızılötesi (880 nm) ışık gönderir, geri döneni ölçer ve sayıları Uno okuyana kadar saklar.</dd>
+        <dt>Kullanım</dt><dd>Pin dizisi, pinler cam pencerenin tersine, <em>arka</em> taraftan çıkacak şekilde lehimlenir. Parmak ucu pencerenin üzerine düz yaslanır.</dd>
+        <dt>Kaçının</dt><dd><code>IRD</code> ve <code>RD</code> boş kalır. 1.8V / 3.3V yazan 3 pedli "pull-up" lehim köprüsünü bulun ve lehimin 3.3V tarafını birleştirdiğini kontrol edin (06. bölümün 2. adımı bunu elektriksel olarak da doğrular).</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>Lojik seviye dönüştürücü</h3><div class="qty">1 · 4 kanallı, çift yönlü · tercüman</div>
+      <dl>
+        <dt>Görünüş</dt><dd>İki sıra hâlinde 6'şar delikli, 12 delikli küçük kart. Üzerinde dört minik 3 bacaklı siyah parça (BSS138 transistör) ve birkaç direnç var. Bir sıra yüksek taraf: <code>HV HV1 HV2 HV3 HV4 GND</code>; diğeri alçak taraf: <code>LV LV1 LV2 LV3 LV4 GND</code>.</dd>
+        <dt>Görevi</dt><dd>Uno bir I²C hattını ancak 3,5 V'un üstünde "yüksek" okur; sensörün hatları ise yalnızca 3,3 V'a çıkar. Dönüştürücü her sinyali karşıya geçirir: Uno tarafı 5 V, sensör tarafı 3,3 V görür. Kanal 1 = SDA, 2 = SCL, 3 = INT, 4 boş.</dd>
+        <dt>Kullanım</dt><dd>Üç güç bağlantısı olmadan hiçbir şey yapmaz: <code>HV</code> 5 V'a, <code>LV</code> 3,3 V'a, <code>GND</code> toprağa (her iki GND pinini de bağlıyoruz).</dd>
+        <dt>Kaçının</dt><dd>Tarafları karıştırmak. Bazı kartlarda <code>VA/VB</code> veya <code>A/B</code> yazar: besleme pinini 3,3 V'a bağladığınız taraf alçak taraftır ve sensör oraya bağlanır.</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>Breadboard, 830 delik</h3><div class="qty">1 · lehimsiz devre tahtası</div>
+      <dl>
+        <dt>Görünüş</dt><dd>Delik dolu beyaz plastik blok. Ortasında boydan boya bir oluk var. İki kenarında uzun kırmızı ve mavi çizgiler var.</dd>
+        <dt>Görevi</dt><dd>Kabloları ve parçaları lehimsiz birleştirir. İçindeki gizli metal klipsler belirli delikleri birbirine bağlar (03. bölüm).</dd>
+        <dt>Kaçının</dt><dd>Kenardaki rayların boydan boya devam ettiğini varsaymak: bazı tahtalarda ortadan kesiktir. Kullanmadan önce multimetrenin bip moduyla kontrol edin.</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>140 parça jumper seti</h3><div class="qty">1 kutu · sert, hazır kesilmiş ve bükülmüş</div>
+      <dl>
+        <dt>Görünüş</dt><dd>Uçları açık, U şeklinde kısa kablolar; uzunluğa göre ayrılmış. Renk işlevi değil, uzunluğu gösterir.</dd>
+        <dt>Görevi</dt><dd>Breadboard üzerindeki tüm bağlantılar ve breadboard'dan Uno soketlerine giden kablolar (Uno için en uzunları seçin ve Uno'yu breadboard'un hemen yanına koyun).</dd>
+        <dt>Kullanım</dt><dd>İki delik arasında düz yatan uzunluğu seçin; uçları durana kadar (yaklaşık 5 mm) dik bastırın.</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>Dişi-erkek kablolar, 10 cm</h3><div class="qty">40'lık 1 paket · sensör kablosu</div>
+      <dl>
+        <dt>Görünüş</dt><dd>40 kablodan oluşan yassı, gökkuşağı renkli şerit. Her kablonun bir ucunda soket (dişi), diğerinde pin (erkek) var.</dd>
+        <dt>Görevi</dt><dd>Modülü (dişi uç modülün pinlerine) breadboard'a (erkek uç bir deliğe) bağlar.</dd>
+        <dt>Kullanım</dt><dd>Birbirine yapışık kalan 5 kabloluk bir şerit ayırın; masaya bantlaması çok daha kolay olur. Yalnızca breadboard ucundaki son birkaç cm'yi ayırın. Hangi rengin VIN, GND, SDA, SCL, INT olduğunu not edin.</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>10 µF kondansatör (C1)</h3><div class="qty">1 · elektrolitik, 25 V · kutuplu</div>
+      <dl>
+        <dt>Görünüş</dt><dd>İki bacaklı küçük silindir (çoğunlukla siyah veya mavi). Bir yanında "–" işaretli açık renkli bir şerit var.</dd>
+        <dt>Görevi</dt><dd>Sensörün güç kablolarının indiği yerde küçük bir enerji deposu; LED darbeleri besleme gerilimini düşürmesin diye.</dd>
+        <dt>Kaçının</dt><dd>Yönü vardır. "–" şeridinin altındaki bacak (aynı zamanda kısa bacak) GND'ye, diğer bacak VIN'e gider.</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>100 nF kondansatör (C2)</h3><div class="qty">10'lu paket · seramik · 1 tane kullanılır</div>
+      <dl>
+        <dt>Görünüş</dt><dd>İki bacaklı minik sarı, mavi veya turuncu damla/disk; üzerinde <code>104</code> yazar (10 × 10⁴ pF = 100 nF).</dd>
+        <dt>Görevi</dt><dd>C1 ile birlikte çalışır, C1'in yetişemediği hızlı dalgalanmaları süzer.</dd>
+        <dt>Kullanım</dt><dd>Yönü yoktur: C1 ile aynı iki şeride, istediğiniz yönde.</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>4,7 kΩ dirençler (R1, R2)</h3><div class="qty">10'lu paket · yalnızca yedek</div>
+      <dl>
+        <dt>Görünüş</dt><dd>Renkli bantlı minik bej veya mavi tüp: sarı, mor, kırmızı, altın (4 bant) ya da sarı, mor, siyah, kahverengi, kahverengi (5 bant).</dd>
+        <dt>Görevi</dt><dd>Sensör tarafında SDA ve SCL için ek pull-up. Yalnızca 06. bölümün 2. veya 3. adımı modülün kendi pull-up'larının olmadığını gösterirse kullanılır. Normalde poşette kalırlar.</dd>
+        <dt>Kullanım</dt><dd>Yönü yoktur. Bir bacak SDA şeridine (sensör tarafı), diğeri 3,3 V rayına; SCL için de aynı.</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>Multimetre</h3><div class="qty">1 · elimizde var · elektriği gören gözümüz</div>
+      <dl>
+        <dt>Görevi</dt><dd>Hassas bir şey bağlanmadan önce gerilimleri kontrol eder; kısa devreleri ve kopuk kabloları bulur.</dd>
+        <dt>Kullanım</dt><dd>03. bölüme bakın. Siyah prob <code>COM</code>'a, kırmızı prob <code>V</code> yazan sokete (çoğunlukla <code>VΩmA</code>). Asla <code>10A</code> soketine değil.</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>Bant, cırt bant, piller</h3><div class="qty">parmak tutucu + referans</div>
+      <dl>
+        <dt>Siyah elektrik bandı</dt><dd>Parmak ucunun etrafından oda ışığını keser, modülü ve kablolarını sabit tutar.</dd>
+        <dt>Cırt bant, 10 mm</dt><dd>Bir yüzü kanca, diğer yüzü ilmek; kendi üstüne yapışır. Yaklaşık 15 cm kesin. Parmağı sensörün üzerinde sabit ve hafif bir basınçla tutar.</dd>
+        <dt>AAA piller</dt><dd>ARTIMED referans oksimetre için, kendi pilleri bitmişse.</dd>
+      </dl>
+    </article>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="skills">
+  <h2><span class="n">03</span>Temel beceriler</h2>
+
+  <h3>Breadboard bağlantıları nasıl kurar</h3>
+  <ul>
+    <li>Her numaralı <b>şerit</b>, altta birbirine bağlı 5 delikten oluşur: 7. şeridin a–e delikleri bir bağlantı, f–j delikleri ayrı bir bağlantıdır. Aynı 5 delikli şeride takılan her şey birbirine bağlıdır.</li>
+    <li><b>Ortadaki oluk</b> iki yarıyı ayırır. İki sıra pinli küçük bir kart (seviye dönüştürücü) oluğun üstüne oturur, böylece her pin kendi şeridine düşer.</li>
+    <li>Kenarlardaki <b>raylar</b> boyuna uzanır. Bunları besleme hattı olarak kullanıyoruz: üst çift = 5 V ve GND, alt çift = 3,3 V ve GND. İki kırmızı çizgi aynı göründüğü için <b>tahtanın üstüne kalemle "5V" ve "3V3" yazın</b>.</li>
+    <li>Yan yana iki şeritteki parçalar bağlı <em>değildir</em>. İki bacağı da aynı şeritte olan bir parça kısa devre olur ve hiçbir işe yaramaz.</li>
+  </ul>
+
+  <h3>Multimetre kullanımı</h3>
+  <div class="two">
+    <div>
+      <p><b>Gerilim ölçmek</b> (devre enerjili)</p>
+      <ol>
+        <li>Kadranı <b>V⎓</b> konumuna getirin (DC volt; yanında düz çizgi olan V). Kademe varsa 20 V seçin.</li>
+        <li>Siyah prob herhangi bir GND noktasına, kırmızı prob ölçmek istediğiniz noktaya.</li>
+        <li>Değeri okuyun. Eksi işareti probların ters olduğunu gösterir; bir şey bozulmaz.</li>
+      </ol>
+    </div>
+    <div>
+      <p><b>Bağlantı kontrolü</b> (devre <em>fişten çekili</em>)</p>
+      <ol>
+        <li>Kadranı <b>bip</b> moduna getirin (hoparlör ya da ))) simgesi, çoğunlukla diyot simgesiyle aynı yerde).</li>
+        <li>İki probu birbirine değdirin: öter. Bu "bağlı" demektir.</li>
+        <li>İki noktaya dokunun. Öterse bağlı, sessizse bağlı değil.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="warn"><strong>Asla</strong><p>Enerjili bir devrede bip veya direnç modunu kullanmayın ve bu ölçümlerde kırmızı probu <code>10A</code> ya da <code>mA</code> soketine takmayın: multimetre kısa devreye dönüşür.</p></div>
+
+  <h3>Pin dizilerini lehimlemek (okulda)</h3>
+  <ol>
+    <li>Modül için 7 pinlik (kendi pini yoksa), dönüştürücü için iki tane 6 pinlik dizi koparın. Pense ile ya da çentikten bükerek ayırın.</li>
+    <li><b>Breadboard'u kalıp olarak kullanın.</b> Pinlerin uzun uçlarını breadboard'a batırın, kartı kısa uçlar deliklerinden yukarı çıkacak şekilde üstüne oturtun.
+      <ul>
+        <li>Modül: <b>cam pencere yukarı bakacak</b>, böylece lehimden sonra uzun pinler parmaktan uzakta, arkadan çıkar.</li>
+        <li>Seviye dönüştürücü: parçalar yukarı bakacak. İki pin sırası oluğun iki yanına girer, kart düz durur.</li>
+      </ul></li>
+    <li>Havyayı ısıtın (yaklaşık 330–350 °C). Ucunu ıslak süngere ya da pirinç teline silin ve uca biraz lehim değdirin.</li>
+    <li><b>Önce bir köşe pinini</b> lehimleyin: havya ucunu pine <em>ve</em> bakır halkaya 1–2 saniye tutun, lehimi bağlantıya (havyaya değil) verin, önce lehimi sonra havyayı çekin. Kartın düz olduğunu kontrol edin; değilse yalnızca o lehimi eritip düzeltin.</li>
+    <li>Karşı köşeyi, sonra kalanları yapın. Her lehim, pini saran küçük, parlak bir koni olmalı. Üstte duran bir top ya da mat gri bir yığın yeniden ısıtılmalı.</li>
+    <li><b>Köprü</b> arayın: komşu iki pini birleştiren lehim. Komşu her çifti bip moduyla kontrol edin; hiçbiri ötmemeli. Köprüyü temiz, sıcak bir uçla pinlerin arasından çekerek kaldırın.</li>
+  </ol>
+  <div class="note"><strong>Pull-up pedi</strong><p>Modül lehim istasyonundayken 3 pedli köprüye bakın. Lehim orta pedi 1.8V tarafına bağlıyorsa eritip kaldırın ve orta pedi 3.3V'ye bağlayın. 1,8 V'ta da devre dönüştürücü sayesinde genellikle çalışır, ama raporda anlatılan 3,3 V'tur.</p></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="wiring">
+  <h2><span class="n">04</span>Kablolama planı</h2>
+  <p>Bu, Şekil 5'in delik delik yerleşimidir. Diyagram neyin nereye gittiğini, tablo ise kontrol listesini gösterir. Her şeyi <b>USB kablosu takılı değilken</b> kurun.</p>
+  <div class="diagram"><svg viewBox="0 0 1120 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="bbt"><title id="bbt">Breadboard kablolama planı</title>
+<rect x="300" y="48" width="600" height="408" rx="10" class="bb-body"/>
+<rect x="300" y="238" width="600" height="24" class="bb-gap"/>
+<line x1="318" y1="59" x2="890" y2="59" class="rp"/>
+<text x="906" y="75" class="lab-s t5">+5V</text>
+<rect x="326" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<line x1="318" y1="105" x2="890" y2="105" class="rn"/>
+<text x="906" y="99" class="lab-s tg">GND</text>
+<rect x="326" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<line x1="318" y1="399" x2="890" y2="399" class="rp"/>
+<text x="906" y="415" class="lab-s t33">+3V3</text>
+<rect x="326" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<line x1="318" y1="445" x2="890" y2="445" class="rn"/>
+<text x="906" y="439" class="lab-s tg">GND</text>
+<rect x="326" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="134" class="lab-xs" text-anchor="end">a</text>
+<rect x="326" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="158" class="lab-xs" text-anchor="end">b</text>
+<rect x="326" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="182" class="lab-xs" text-anchor="end">c</text>
+<rect x="326" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="206" class="lab-xs" text-anchor="end">d</text>
+<rect x="326" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="230" class="lab-xs" text-anchor="end">e</text>
+<rect x="326" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="278" class="lab-xs" text-anchor="end">f</text>
+<rect x="326" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="302" class="lab-xs" text-anchor="end">g</text>
+<rect x="326" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="326" class="lab-xs" text-anchor="end">h</text>
+<rect x="326" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="350" class="lab-xs" text-anchor="end">i</text>
+<rect x="326" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="374" class="lab-xs" text-anchor="end">j</text>
+<rect x="326" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<text x="330" y="117" class="lab-xs" text-anchor="middle">1</text>
+<text x="330" y="392" class="lab-xs" text-anchor="middle">1</text>
+<text x="426" y="117" class="lab-xs" text-anchor="middle">5</text>
+<text x="426" y="392" class="lab-xs" text-anchor="middle">5</text>
+<text x="546" y="117" class="lab-xs" text-anchor="middle">10</text>
+<text x="546" y="392" class="lab-xs" text-anchor="middle">10</text>
+<text x="666" y="117" class="lab-xs" text-anchor="middle">15</text>
+<text x="666" y="392" class="lab-xs" text-anchor="middle">15</text>
+<text x="786" y="117" class="lab-xs" text-anchor="middle">20</text>
+<text x="786" y="392" class="lab-xs" text-anchor="middle">20</text>
+<rect x="24" y="70" width="190" height="400" rx="12" class="uno"/>
+<text x="119" y="104" class="lab-b" text-anchor="middle">Arduino Uno</text>
+<text x="119" y="124" class="lab-xs" text-anchor="middle">(pinler konuma göre değil,</text>
+<text x="119" y="138" class="lab-xs" text-anchor="middle">işleve göre çizildi)</text>
+<rect x="206" y="174" width="16" height="12" rx="2" class="pin"/>
+<text x="198" y="185" class="lab-s" text-anchor="end">5V</text>
+<rect x="206" y="209" width="16" height="12" rx="2" class="pin"/>
+<text x="198" y="220" class="lab-s" text-anchor="end">GND</text>
+<rect x="206" y="244" width="16" height="12" rx="2" class="pin"/>
+<text x="198" y="255" class="lab-s" text-anchor="end">3.3V</text>
+<rect x="206" y="279" width="16" height="12" rx="2" class="pin"/>
+<text x="198" y="290" class="lab-s" text-anchor="end">GND</text>
+<rect x="206" y="324" width="16" height="12" rx="2" class="pin"/>
+<text x="198" y="335" class="lab-s" text-anchor="end">A4 / SDA</text>
+<rect x="206" y="359" width="16" height="12" rx="2" class="pin"/>
+<text x="198" y="370" class="lab-s" text-anchor="end">A5 / SCL</text>
+<rect x="206" y="394" width="16" height="12" rx="2" class="pin"/>
+<text x="198" y="405" class="lab-s" text-anchor="end">D2</text>
+<rect x="10" y="425" width="34" height="30" rx="3" class="usb"/><text x="54" y="445" class="lab-xs">USB → bilgisayar</text>
+<polyline points="222,180 262,180 262,70 330,70" class="w c5"/>
+<circle cx="222" cy="180" r="5" class="end c5"/>
+<circle cx="330" cy="70" r="5" class="end c5"/>
+<polyline points="222,215 270,215 270,94 354,94" class="w cg"/>
+<circle cx="222" cy="215" r="5" class="end cg"/>
+<circle cx="354" cy="94" r="5" class="end cg"/>
+<polyline points="222,250 262,250 262,410 330,410" class="w c33"/>
+<circle cx="222" cy="250" r="5" class="end c33"/>
+<circle cx="330" cy="410" r="5" class="end c33"/>
+<polyline points="222,285 254,285 254,434 354,434" class="w cg"/>
+<circle cx="222" cy="285" r="5" class="end cg"/>
+<circle cx="354" cy="434" r="5" class="end cg"/>
+<polyline points="222,330 278,330 278,28 450,28 450,130" class="w csda"/>
+<circle cx="222" cy="330" r="5" class="end csda"/>
+<circle cx="450" cy="130" r="5" class="end csda"/>
+<polyline points="222,365 286,365 286,20 474,20 474,130" class="w cscl"/>
+<circle cx="222" cy="365" r="5" class="end cscl"/>
+<circle cx="474" cy="130" r="5" class="end cscl"/>
+<polyline points="222,400 294,400 294,12 546,12 546,130" class="w cint"/>
+<circle cx="222" cy="400" r="5" class="end cint"/>
+<circle cx="546" cy="130" r="5" class="end cint"/>
+<rect x="434" y="212" width="152" height="76" rx="4" class="ls"/>
+<text x="510.0" y="247" class="lab-s inv" text-anchor="middle">seviye dönüştürücü</text>
+<text x="510.0" y="262" class="lab-xs inv" text-anchor="middle">HV üstte · LV altta</text>
+<rect x="446" y="222" width="8" height="8" class="lspin"/><rect x="446" y="270" width="8" height="8" class="lspin"/>
+<text x="450" y="208" class="lab-xxs" text-anchor="middle">HV1</text>
+<text x="450" y="301" class="lab-xxs" text-anchor="middle">LV1</text>
+<rect x="470" y="222" width="8" height="8" class="lspin"/><rect x="470" y="270" width="8" height="8" class="lspin"/>
+<text x="474" y="208" class="lab-xxs" text-anchor="middle">HV2</text>
+<text x="474" y="301" class="lab-xxs" text-anchor="middle">LV2</text>
+<rect x="494" y="222" width="8" height="8" class="lspin"/><rect x="494" y="270" width="8" height="8" class="lspin"/>
+<text x="498" y="208" class="lab-xxs" text-anchor="middle">HV</text>
+<text x="498" y="301" class="lab-xxs" text-anchor="middle">LV</text>
+<rect x="518" y="222" width="8" height="8" class="lspin"/><rect x="518" y="270" width="8" height="8" class="lspin"/>
+<text x="522" y="208" class="lab-xxs" text-anchor="middle">GND</text>
+<text x="522" y="301" class="lab-xxs" text-anchor="middle">GND</text>
+<rect x="542" y="222" width="8" height="8" class="lspin"/><rect x="542" y="270" width="8" height="8" class="lspin"/>
+<text x="546" y="208" class="lab-xxs" text-anchor="middle">HV3</text>
+<text x="546" y="301" class="lab-xxs" text-anchor="middle">LV3</text>
+<rect x="566" y="222" width="8" height="8" class="lspin"/><rect x="566" y="270" width="8" height="8" class="lspin"/>
+<text x="570" y="208" class="lab-xxs" text-anchor="middle">HV4</text>
+<text x="570" y="301" class="lab-xxs" text-anchor="middle">LV4</text>
+<polyline points="498,154 498,70" class="w c5"/>
+<circle cx="498" cy="154" r="5" class="end c5"/>
+<circle cx="498" cy="70" r="5" class="end c5"/>
+<polyline points="522,154 522,94" class="w cg"/>
+<circle cx="522" cy="154" r="5" class="end cg"/>
+<circle cx="522" cy="94" r="5" class="end cg"/>
+<polyline points="498,370 498,410" class="w c33"/>
+<circle cx="498" cy="370" r="5" class="end c33"/>
+<circle cx="498" cy="410" r="5" class="end c33"/>
+<polyline points="522,370 522,434" class="w cg"/>
+<circle cx="522" cy="370" r="5" class="end cg"/>
+<circle cx="522" cy="434" r="5" class="end cg"/>
+<line x1="786" y1="298" x2="810" y2="298" class="leg"/>
+<circle cx="798.0" cy="284" r="13" class="ecap"/>
+<rect x="806" y="271" width="7" height="26" class="ecap-stripe"/>
+<text x="770" y="288" class="lab-xs halo" text-anchor="end">C1 10 µF, + bacak 20</text>
+<line x1="786" y1="322" x2="810" y2="322" class="leg"/>
+<ellipse cx="798.0" cy="322" rx="10" ry="7" class="ccap"/>
+<text x="770" y="326" class="lab-xs halo" text-anchor="end">C2 100 nF</text>
+<polyline points="786,370 786,410" class="w c33"/>
+<circle cx="786" cy="370" r="5" class="end c33"/>
+<circle cx="786" cy="410" r="5" class="end c33"/>
+<polyline points="810,370 810,434" class="w cg"/>
+<circle cx="810" cy="370" r="5" class="end cg"/>
+<circle cx="810" cy="434" r="5" class="end cg"/>
+<rect x="930" y="300" width="170" height="270" rx="14" class="holder"/>
+<text x="1015" y="590" class="lab-xs" text-anchor="middle">parmak tutucu</text>
+<rect x="985" y="330" width="100" height="220" rx="6" class="mod"/>
+<rect x="1030" y="420" width="34" height="22" rx="3" class="chip"/>
+<text x="1047" y="465" class="lab-xxs inv" text-anchor="middle">sensör</text>
+<text x="1035" y="350" class="lab-s inv" text-anchor="middle">MAX30102</text>
+<rect x="979" y="367" width="12" height="10" rx="2" class="pin"/>
+<text x="997" y="376" class="lab-xs inv">VIN</text>
+<rect x="979" y="393" width="12" height="10" rx="2" class="pin"/>
+<text x="997" y="402" class="lab-xs inv">GND</text>
+<rect x="979" y="419" width="12" height="10" rx="2" class="pin"/>
+<text x="997" y="428" class="lab-xs inv">SDA</text>
+<rect x="979" y="445" width="12" height="10" rx="2" class="pin"/>
+<text x="997" y="454" class="lab-xs inv">SCL</text>
+<rect x="979" y="471" width="12" height="10" rx="2" class="pin"/>
+<text x="997" y="480" class="lab-xs inv">INT</text>
+<rect x="979" y="497" width="12" height="10" rx="2" class="pin"/>
+<text x="997" y="506" class="lab-xs inv">IRD</text>
+<rect x="979" y="523" width="12" height="10" rx="2" class="pin"/>
+<text x="997" y="532" class="lab-xs inv">RD</text>
+<text x="1000" y="292" class="lab-xs" text-anchor="middle">IRD, RD: boş bırakın</text>
+<polyline points="979,372 950,372 950,520 786,520 786,346" class="w c33 fm"/>
+<circle cx="979" cy="372" r="5" class="end c33 fm"/>
+<circle cx="786" cy="346" r="5" class="end c33 fm"/>
+<polyline points="979,398 946,398 946,528 810,528 810,346" class="w cg fm"/>
+<circle cx="979" cy="398" r="5" class="end cg fm"/>
+<circle cx="810" cy="346" r="5" class="end cg fm"/>
+<polyline points="979,424 942,424 942,536 450,536 450,346" class="w csda fm"/>
+<circle cx="979" cy="424" r="5" class="end csda fm"/>
+<circle cx="450" cy="346" r="5" class="end csda fm"/>
+<polyline points="979,450 938,450 938,544 474,544 474,346" class="w cscl fm"/>
+<circle cx="979" cy="450" r="5" class="end cscl fm"/>
+<circle cx="474" cy="346" r="5" class="end cscl fm"/>
+<polyline points="979,476 934,476 934,552 546,552 546,346" class="w cint fm"/>
+<circle cx="979" cy="476" r="5" class="end cint fm"/>
+<circle cx="546" cy="346" r="5" class="end cint fm"/>
+<text x="600" y="580" class="lab-xs" text-anchor="middle">kesikli: 10 cm dişi-erkek kablolar (dişi uç modülde)</text>
+</svg></div>
+  <div class="caption">Şerit numaraları ve harfler çoğu 830 delikli tahtadaki gibidir. Kablonun doğru şeride ve doğru yarıya düşmesi yeterli; tam delik önemli değil. Seviye dönüştürücünün pin sırası yaygın olanıdır; kartınızdaki etiketleri esas alın.</div>
+
+  <h3>Bağlantı tablosu</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>#</th><th>Nereden</th><th>Nereye</th><th>İşlevi</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td><span class="wc k5"></span>Uno <code>5V</code></td><td>üst + ray (5V)</td><td>5 V besleme hattı</td></tr>
+      <tr><td class="num">2</td><td><span class="wc kg"></span>Uno <code>GND</code></td><td>üst – ray</td><td>toprak, üst</td></tr>
+      <tr><td class="num">3</td><td><span class="wc k33"></span>Uno <code>3.3V</code></td><td>alt + ray (3V3)</td><td>3,3 V besleme hattı</td></tr>
+      <tr><td class="num">4</td><td><span class="wc kg"></span>Uno ikinci <code>GND</code></td><td>alt – ray</td><td>toprak, alt (iki toprak rayını Uno'da birleştirir)</td></tr>
+      <tr><td class="num">5</td><td>Seviye dönüştürücü</td><td>oluğun üstünde, şerit 6–11</td><td>HV sırası üst yarıda, LV sırası alt yarıda</td></tr>
+      <tr><td class="num">6</td><td><span class="wc k5"></span>şerit 8 üst (<code>HV</code>)</td><td>üst + ray (5V)</td><td>Uno tarafını besler</td></tr>
+      <tr><td class="num">7</td><td><span class="wc kg"></span>şerit 9 üst (<code>GND</code>)</td><td>üst – ray</td><td></td></tr>
+      <tr><td class="num">8</td><td><span class="wc k33"></span>şerit 8 alt (<code>LV</code>)</td><td>alt + ray (3V3)</td><td>sensör tarafını besler</td></tr>
+      <tr><td class="num">9</td><td><span class="wc kg"></span>şerit 9 alt (<code>GND</code>)</td><td>alt – ray</td><td></td></tr>
+      <tr><td class="num">10</td><td><span class="wc ksda"></span>Uno <code>A4</code></td><td>şerit 6 üst (<code>HV1</code>)</td><td>SDA, Uno tarafı</td></tr>
+      <tr><td class="num">11</td><td><span class="wc kscl"></span>Uno <code>A5</code></td><td>şerit 7 üst (<code>HV2</code>)</td><td>SCL, Uno tarafı</td></tr>
+      <tr><td class="num">12</td><td><span class="wc kint"></span>Uno <code>D2</code></td><td>şerit 10 üst (<code>HV3</code>)</td><td>INT, Uno tarafı</td></tr>
+      <tr><td class="num">13</td><td><span class="wc k33"></span>şerit 20 alt</td><td>alt + ray (3V3)</td><td>sensör güç girişi (VIN). 5 V testi için bu kablonun ray ucunu üst + raya taşıyın.</td></tr>
+      <tr><td class="num">14</td><td><span class="wc kg"></span>şerit 21 alt</td><td>alt – ray</td><td>sensör toprak girişi</td></tr>
+      <tr><td class="num">15</td><td>C1 10 µF</td><td>+ bacak şerit 20, – bacak (şeritli) şerit 21</td><td>dekuplaj</td></tr>
+      <tr><td class="num">16</td><td>C2 100 nF</td><td>şerit 20 ve şerit 21</td><td>dekuplaj</td></tr>
+      <tr><td class="num">17</td><td><span class="wc k33"></span>modül <code>VIN</code> (D-E)</td><td>şerit 20 alt</td><td></td></tr>
+      <tr><td class="num">18</td><td><span class="wc kg"></span>modül <code>GND</code> (D-E)</td><td>şerit 21 alt</td><td></td></tr>
+      <tr><td class="num">19</td><td><span class="wc ksda"></span>modül <code>SDA</code> (D-E)</td><td>şerit 6 alt (<code>LV1</code>)</td><td>SDA, sensör tarafı</td></tr>
+      <tr><td class="num">20</td><td><span class="wc kscl"></span>modül <code>SCL</code> (D-E)</td><td>şerit 7 alt (<code>LV2</code>)</td><td>SCL, sensör tarafı</td></tr>
+      <tr><td class="num">21</td><td><span class="wc kint"></span>modül <code>INT</code> (D-E)</td><td>şerit 10 alt (<code>LV3</code>)</td><td>INT, sensör tarafı</td></tr>
+      <tr><td class="num">–</td><td>modül <code>IRD</code>, <code>RD</code></td><td>hiçbir yere</td><td>boş bırakın</td></tr>
+      <tr><td class="num">ops.</td><td>R1 4,7 kΩ / R2 4,7 kΩ</td><td>şerit 6 alt → 3V3 ray / şerit 7 alt → 3V3 ray</td><td>yalnızca 06. bölüm gerekli derse</td></tr>
+    </tbody>
+  </table></div>
+  <p class="caption">D-E: 10 cm dişi-erkek kablo, dişi ucu modülde.</p>
+
+  <h3>Kurulum sırası</h3>
+  <ol>
+    <li>Raylar ve Uno beslemesi (1–4. satırlar). Durun ve aşağıdaki <b>kısa devre kontrolünü</b> yapın.</li>
+    <li>Seviye dönüştürücü ve beslemesi (5–9).</li>
+    <li>C1 ve C2 ile sensör güç girişi (13–16). C1'in şeridinin 21. şeritte olduğunu kontrol edin.</li>
+    <li>Uno tarafındaki sinyal kabloları (10–12).</li>
+    <li>Yalnızca modülün güç kabloları (17–18). SDA, SCL ve INT şimdilik breadboard'a takılmaz: 06. bölüm onları aşama aşama bağlar.</li>
+  </ol>
+  <div class="stop"><strong>İlk çalıştırmadan önce kısa devre kontrolü</strong><p>USB çekili, multimetre bip modunda: üst + ray ile üst – raya dokunun; sonra alt + ile alt –; sonra üst + ile alt +. <b>Bunların hiçbiri ötmemeli.</b> Öterse bir kablo yanlış yerdedir. Fişe takmadan önce bulun.</p></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="holder">
+  <h2><span class="n">05</span>Parmak tutucu</h2>
+  <p>İki görevi var (Bölüm 2.8): parmağı sabit bir basınçla hareketsiz tutmak ve oda ışığını dışarıda bırakmak.</p>
+  <ol>
+    <li>Modülü taban bloğuna cam pencere yukarı bakacak şekilde koyun; <b>pinlerin olduğu kenar bloğun kenarından biraz taşsın</b>. Böylece kablo soketleri bloğun yanından aşağı sarkar ve modül düz yatar.</li>
+    <li>Modülü iki yanından bloğa bantlayın. Bandı cam pencereden uzak tutun; pencereye bulaşan yapışkan sinyali bozar.</li>
+    <li>5 kabloluk şeridi bloğa ve masaya bantlayın; parmağı çekince kablolar asılmasın.</li>
+    <li>Bloğu breadboard'un hemen yanına koyun (kablolar yalnızca 10 cm).</li>
+    <li>Cırt bant: bir ucunu bloğun altına bantlayın; şerit parmak ucunun üstünden dolanıp kendi üstüne kapansın.</li>
+    <li>Parmağı yerleştirin: parmak ucunun yumuşak kısmı pencerenin ortasında, bant sıkı ama sıkmadan. Sonra kısa bir siyah bant parçasını parmak ucuyla bloğun etrafına gevşekçe sararak yanları ışığa kapatın.</li>
+  </ol>
+  <div class="warn"><strong>Basınç</strong><p>Fazla sıkmak parmak ucundaki kanı dışarı iter ve nabız neredeyse kaybolur. Fazla gevşek olursa her hareket sinyale yansır. Parmak kaymayana kadar sıkın, sonra biraz gevşetin. Her gönüllü için aynı bant gerginliğini kullanın.</p></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="bringup">
+  <h2><span class="n">06</span>İlk çalıştırma, aşama aşama</h2>
+  <p>Bu, raporun Tablo 10'unun adım adım uygulamasıdır. Aşamaları sırayla yapın; biri başarısız olursa devam etmeden düzeltin (09. bölüm). <b>Her kablo değişikliğinde USB'yi çekin.</b></p>
+  <div class="steps">
+    <div class="step"><h3>Uno ve raylar<span class="t10">Tablo 10 · 1</span></h3>
+      <p>USB kablosunu takın. Uno'nun yeşil <code>ON</code> LED'i yanar. Multimetre V⎓ konumunda, siyah prob bir GND rayında:</p>
+      <div class="expect"><b>Beklenen</b>Üst + ray yaklaşık 5,0 V (4,7–5,2), alt + ray yaklaşık 3,3 V (3,2–3,4). Dönüştürücünün <code>HV</code> şeridi 5 V, <code>LV</code> şeridi 3,3 V. Şerit 20 alt (VIN girişi) 3,3 V.</div>
+    </div>
+    <div class="step"><h3>Sensör beslemede, sinyaller bağlı değil<span class="t10">Tablo 10 · 2</span></h3>
+      <p>USB'yi çekin. Yalnızca modülün VIN ve GND kablolarını takın (17–18). USB'yi takın. Modülün kendi SDA ve SCL pinlerinde ölçün (kırmızı probu pine ya da boştaki kablonun soketine değdirin).</p>
+      <div class="expect"><b>Beklenen</b>SDA ve SCL'de yaklaşık 3,3 V: pull-up pedi 3,3 V'ta. <b>1,8 V</b> ped 1,8 V tarafında demektir (okulda düzeltin ya da devam edin; genellikle yine çalışır). <b>0 V</b> modülde pull-up olmadığını gösterir: R1 ve R2 gerekir.</div>
+    </div>
+    <div class="step"><h3>I²C tarayıcı<span class="t10">Tablo 10 · 3</span></h3>
+      <p>USB'yi çekin. Modülün SDA, SCL ve INT kablolarını bağlayın (19–21). USB'yi takın. <code>step1_i2c_scanner</code>'ı açın, yükleyin, Serial Monitor'ü açın (sağ üstteki büyüteç), hızı <b>115200 baud</b> yapın.</p>
+      <pre>I2C scanner - looking for the MAX30102 at 0x57
+  device at 0x57  &lt;- MAX30102
+Done, 1 device(s) found.</pre>
+      <div class="expect"><b>Beklenen</b>0x57'de tek cihaz, her 3 s'de tekrar. Çalışırken sensör kablolarını hafifçe oynatın: sonuç değişmemeli.</div>
+    </div>
+    <div class="step"><h3>Sensör kontrolü<span class="t10">Tablo 10 · 4</span></h3>
+      <p><code>step2_sensor_check</code>'i yükleyin. Serial Monitor 115200'de.</p>
+      <pre>Part ID: 0x15  OK (MAX30102)
+Revision ID: 0x03
+Die temperature: 27.31 C
+INT on D2: idle HIGH, data waiting LOW  -> INT wire OK</pre>
+      <div class="expect"><b>Beklenen</b>Part ID 0x15, oda sıcaklığına yakın bir sıcaklık (çip birkaç derece sıcak çalışır; üstüne parmak koymak yükseltir) ve "INT wire OK". Revizyon numarası farklı olabilir.</div>
+    </div>
+    <div class="step"><h3>Parmakla ham sinyal<span class="t10">Tablo 10 · 5</span></h3>
+      <p><code>oximeter_main</code>'i yükleyin. Sensörün kırmızı LED'i artık hafifçe yanmalı (IR LED görünmez; telefonun ön kamerası bazen mor gösterir). Serial Monitor'ü kapatın, <b>Tools → Serial Plotter</b>'ı açın, 115200 seçin, mesaj kutusuna <kbd>w</kbd> yazıp Enter'a basın. Parmağı sensöre koyun, bandı sarın, kıpırdamayın.</p>
+      <div class="expect"><b>Beklenen</b>Parmak yokken iki çizgi de düşük. Parmakla ikisi de yükselir ve oturur, sonra küçük düzenli bir dalgalanma görünür: nabzınız. Yalnızca dalgalanmayı (AC) görmek için <kbd>p</kbd> yazın; okumak çok daha kolay. Hiçbir çizgi 262143'te düz kalmamalı (doyum).</div>
+    </div>
+    <div class="step"><h3>LED akımı ve ADC aralığını ayarlama<span class="t10">Tablo 10 · 6</span></h3>
+      <p>Serial Monitor'de (ya da Plotter'ın mesaj kutusunda) ayarları ve DC seviyelerini görmek için <kbd>s</kbd> yazın. Sonra ayarlayın:</p>
+      <ul>
+        <li><kbd>I</kbd> / <kbd>i</kbd>: IR LED akımını 1 mA artır / azalt. <kbd>R</kbd> / <kbd>r</kbd>: kırmızı için aynısı. Her değişiklik filtreleri yeniden başlatır.</li>
+        <li><kbd>a</kbd>: sonraki ADC aralığı (2048 → 4096 → 8192 → 16384 nA). Büyük aralık, doyuma ulaşmadan daha fazla ışık kaldırır.</li>
+      </ul>
+      <div class="expect"><b>Beklenen</b>İki DC değerini de yaklaşık 50.000 ile 200.000 arasına (0–262.143'ün ortası civarı), kırmızı ve IR'yi birbirine yakın ve plot modunda belirgin bir dalgalanmayla hedefleyin. Son akımları not edin; kalıcı olması için sketch'in başındaki <code>redCurrent</code>, <code>irCurrent</code> ve <code>adcRange</code> değerlerine yazıp yeniden yükleyin. Uno'nun reset düğmesi koddaki değerlere geri döndürür.</div>
+      <p><b>Kırmızı/IR kontrolü (bir kez):</b> kırmızı akım 0.0 mA olana kadar <kbd>r</kbd> yazın. <code>red</code> sütunu neredeyse sıfıra düşmeli. Onun yerine <code>ir</code> düşerse sketch'te <code>SWAP_RED_IR = true</code> yapın.</p>
+      <p><b>Parmak eşiği (bir kez):</b> parmak yokken ve parmakla IR DC değerini (<kbd>s</kbd>) not edin. <code>FINGER_DC_MIN</code>'i ikisinin yaklaşık ortasına ayarlayın (koddaki 30.000 yalnızca başlangıç tahmini).</p>
+    </div>
+    <div class="step"><h3>60 s dinlenme kaydı, sonra 5 V<span class="t10">Tablo 10 · 7</span></h3>
+      <p>CSV'ye dönmek için <kbd>c</kbd> yazın. Arduino Serial Monitor ve Plotter'ı kapatın. MATLAB'da <code>durationS = 60</code> ile <code>record_session.m</code>'yi, sonra dosya üzerinde <code>analyze_recording.m</code>'yi çalıştırın (08. bölüm).</p>
+      <p>Ardından USB'yi çekin, 13. kablonun ray ucunu 3V3 rayından 5V rayına taşıyın (VIN = 5 V), takın, VIN şeridinin 5 V gösterdiğini kontrol edin, yeniden ayarlayın, tekrar kayıt alın ve SNR'yi karşılaştırın.</p>
+      <div class="expect"><b>Beklenen</b>Analizde nabız frekansınızda net bir tepe, her besleme için bir SNR değeri ve spektrumdan bulunan nabzın yazılımınkine birkaç bpm yakın olması.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="firmware">
+  <h2><span class="n">07</span>Yazılımı kullanma</h2>
+  <h3>Üç sketch</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Sketch</th><th>Ne zaman</th><th>Size söylediği</th></tr></thead>
+    <tbody>
+      <tr><td><code>step1_i2c_scanner</code></td><td>Sensör ilk kez bağlandığında</td><td>I²C kablolarında yanıt veren bir şey var mı, hangi adreste</td></tr>
+      <tr><td><code>step2_sensor_check</code></td><td>Tarayıcı 0x57'yi bulduktan sonra</td><td>Doğru çip mi (ID 0x15), sıcaklık, INT kablosu çalışıyor mu</td></tr>
+      <tr><td><code>oximeter_main</code></td><td>Sonraki her şey</td><td>Bölüm 2.7.3'teki asıl program: veri akışı, nabız, SpO₂ ve kalite bayrakları</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Herhangi bir sketch'i yüklemek</h3>
+  <ol>
+    <li>File → Open → <code>.ino</code> dosyası (klasör adı dosya adıyla aynı olmalı; olduğu gibi bırakın).</li>
+    <li>Tools → Board → Arduino AVR Boards → <b>Arduino Uno</b>. Tools → Port → COM portunuz.</li>
+    <li>Upload (→) tıklayın. Uno'nun TX/RX LED'leri yanıp söner; IDE "Done uploading" der.</li>
+    <li>Serial Monitor ya da Serial Plotter'ı <b>115200 baud</b> ile açın. İkisinden birini açmak Uno'yu yeniden başlatır; bu normaldir.</li>
+  </ol>
+
+  <h3><code>oximeter_main</code> ne gönderir</h3>
+  <p>Her örnek için bir satır, saniyede 100 satır. <code>#</code> ile başlayan satırlar mesajdır.</p>
+  <pre>t_ms,red,ir,red_ac,ir_ac,hr,spo2,flags
+24130,88412,119634,-41,-312,72,95.8,0</pre>
+  <div class="tbl"><table>
+    <thead><tr><th>Sütun</th><th>Anlamı</th></tr></thead>
+    <tbody>
+      <tr><td><code>t_ms</code></td><td>Sensörün kendi saatine göre zaman: örnek numarası × 10 ms. 10'dan büyük bir atlama örnek kaybı demektir.</td></tr>
+      <tr><td><code>red</code>, <code>ir</code></td><td>Ham 18 bit okumalar, 0–262.143. Dedektöre daha çok ışık = daha büyük sayı.</td></tr>
+      <tr><td><code>red_ac</code>, <code>ir_ac</code></td><td>İki filtreden sonraki nabız kısmı (yaklaşık 0,5–4,6 Hz). 0 etrafında salınır.</td></tr>
+      <tr><td><code>hr</code></td><td>Son 4 atım aralığından nabız, bpm. 0 = henüz yeterli temiz atım yok.</td></tr>
+      <tr><td><code>spo2</code></td><td>104 − 17·R, son 4 atımın medyanı. 0 = henüz değer yok. Bölüm 2.6 tamamlanana kadar <b>kalibre değil</b>; birkaç % sapma beklenir.</td></tr>
+      <tr><td><code>flags</code></td><td>Toplamı: 1 parmak yok, 2 doyum, 4 düşük perfüzyon, 8 ortam ışığı. 0 = temiz. Örnek: 9 = parmak yok + ortam ışığı.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Komutlar</h3>
+  <p>Serial Monitor'ün giriş kutusuna (ya da Plotter'ın mesaj kutusuna) tek bir harf yazıp Enter'a basın.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Tuş</th><th>Etkisi</th></tr></thead>
+    <tbody>
+      <tr><td><kbd>c</kbd></td><td>CSV çıktısı (varsayılan; MATLAB için)</td></tr>
+      <tr><td><kbd>p</kbd></td><td>Plot modu: yalnızca kırmızı ve IR AC, etiketli, Serial Plotter için</td></tr>
+      <tr><td><kbd>w</kbd></td><td>Plot modu: ham kırmızı ve IR</td></tr>
+      <tr><td><kbd>R</kbd> <kbd>r</kbd> · <kbd>I</kbd> <kbd>i</kbd></td><td>Kırmızı · IR LED akımını 1 mA artır / azalt (0–51 mA)</td></tr>
+      <tr><td><kbd>a</kbd></td><td>Sonraki ADC aralığı</td></tr>
+      <tr><td><kbd>t</kbd></td><td>Çip sıcaklığı</td></tr>
+      <tr><td><kbd>s</kbd></td><td>Ayarlar, parmak var/yok, DC seviyeleri, kayıp örnekler, I²C hataları</td></tr>
+      <tr><td><kbd>?</kbd></td><td>Kısa yardım satırı</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Yanlış görünen ama normal olan şeyler</h3>
+  <ul>
+    <li>Parmak konduktan sonraki ilk 5–7 s nabız ve SpO₂ 0 gösterir: 1,5 s oturma süresi, sonra birkaç temiz atım gerekir.</li>
+    <li>Parmak aniden oynarsa değerler 0'a düşer ve yaklaşık 3–5 s içinde geri gelir.</li>
+    <li>Bir boşluktan sonraki ilk nabız değerleri, oturana kadar bir iki atım boyunca sapabilir.</li>
+    <li>Uno'nun TX LED'i sürekli yanıp söner: bu veri akışıdır.</li>
+    <li>SpO₂'nin referanstan birkaç % farklı olması: 104/17 değerleri [9]'dan ödünç; yerine kendi kalibrasyonumuz gelecek.</li>
+  </ul>
+
+  <h3>Sketch'in başındaki ayarlar</h3>
+  <p><code>redCurrent</code>, <code>irCurrent</code>, <code>adcRange</code> (başlangıç değerleri), <code>FINGER_DC_MIN</code> ve <code>PI_MIN</code> (raporun "ilk kayıtlardan belirlenecek" dediği iki eşik), <code>CAL_A</code> ve <code>CAL_B</code> (kalibrasyon doğrusu) ve <code>SWAP_RED_IR</code>. Değiştirin, yükleyin, bitti.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="record">
+  <h2><span class="n">08</span>MATLAB ile kayıt</h2>
+  <ol>
+    <li><code>oximeter_main</code>'i yükleyin, ayarlayın, sonra Serial Monitor ve Plotter'ı <b>kapatın</b>. COM portunu aynı anda yalnızca bir program kullanabilir.</li>
+    <li><code>record_session.m</code> içinde <code>port</code> (ör. <code>"COM5"</code>), <code>durationS</code>, <code>subject</code> (S01 gibi bir kod, asla isim) ve <code>state</code> değerlerini ayarlayıp çalıştırın.</li>
+    <li>Her 10 s'de Uno zamanını içeren bir satır basar. İkinci kişi o anda ARTIMED ekranını okur ve SpO₂ ile nabzı kâğıda o zamanın yanına yazar.</li>
+    <li>MATLAB'ın geçerli klasörüne ör. <code>S01_rest_20261112_101500.csv</code> kaydeder.</li>
+    <li>Bu adı <code>analyze_recording.m</code>'ye yazıp çalıştırın: kayıp örnekleri, her kalite bayrağının oranını, SNR'yi, spektrumdan ve yazılımdan bulunan nabzı ve kâğıttaki okumaların yanına koymak için her 10 s penceresinin R değerini yazar.</li>
+  </ol>
+  <div class="note"><strong>MATLAB hata verip durursa</strong><p>Yeniden çalıştırmadan ya da Arduino Serial Monitor'ü açmadan önce COM portunu serbest bırakmak için Command Window'a <code>clear s</code> yazın.</p></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="trouble">
+  <h2><span class="n">09</span>Sorun giderme</h2>
+  <p>Belirtiyi bulun, nedenleri sırayla deneyin. Takılırsanız: fişi çekin, Kontrolcü bağlantı tablosunu satır satır yüksek sesle okurken tekrar kontrol edin, sonra yeniden deneyin. İlk kurulumdaki sorunların çoğu yanlış şeride takılmış tek bir kablodur.</p>
+  <div class="finder">
+    <label for="q" class="mono" style="font-size:13px;color:var(--muted)">Ara</label>
+    <input id="q" type="search" placeholder="ör. COM portu, 0x57, doyum, düz çizgi">
+    <div class="chips" role="group" aria-label="Alana göre filtrele">
+      <button type="button" data-cat="all" aria-pressed="true">hepsi</button>
+      <button type="button" data-cat="pc" aria-pressed="false">bilgisayar &amp; yükleme</button>
+      <button type="button" data-cat="power" aria-pressed="false">güç</button>
+      <button type="button" data-cat="i2c" aria-pressed="false">sensör bağlantısı</button>
+      <button type="button" data-cat="signal" aria-pressed="false">sinyal</button>
+      <button type="button" data-cat="numbers" aria-pressed="false">sayılar</button>
+      <button type="button" data-cat="build" aria-pressed="false">kurulum</button>
+    </div>
+  </div>
+  <div id="issues">
+    <details class="issue" data-cat="power"><summary>Bir şey ısınıyor, koku geliyor ya da devre bağlanınca Uno'nun ON LED'i sönüyor<span class="tag">güç · dur</span></summary><div class="body">
+      <p><b>USB kablosunu hemen çekin.</b> Bu bir kısa devre: bir besleme doğrudan toprağa bağlanmış.</p>
+      <ol><li>04. bölümdeki kısa devre kontrolünü tekrarlayın (bip modu, USB çekili).</li><li>Sık nedenler: yanlış raya takılmış bir ray kablosu, modülde VIN ve GND'nin ters olması, C1'in ters takılması, bir şerit kaymış bir kablo yüzünden 5V ile GND'nin aynı şeritte olması.</li><li>Hangi parçanın ısındığına bakın; hata onun çevresindedir. Modül ısındıysa kabloyu düzelttikten sonra yedeği kullanın.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="pc"><summary>Uno takıldığında COM portu görünmüyor<span class="tag">bilgisayar</span></summary><div class="body">
+      <ol><li>Başka bir USB kablosu deneyin. Birçok kablo yalnızca şarj eder, veri taşımaz.</li><li>Başka bir USB girişi deneyin, doğrudan bilgisayara (çoklayıcı olmadan).</li><li>CH340'lı klon: Windows 10/11 sürücüyü genellikle bir dakika içinde kendisi kurar. Kurmazsa çip üreticisi WCH'nin sitesinden CH340 sürücüsünü (CH341SER) kurup kartı yeniden takın.</li><li>Aygıt Yöneticisi → Bağlantı noktaları (COM ve LPT): sarı uyarı işareti sürücünün eksik olduğunu gösterir.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="pc"><summary>Yükleme başarısız: "programmer is not responding", "not in sync" ya da zaman aşımı<span class="tag">bilgisayar</span></summary><div class="body">
+      <ol><li>Yanlış port seçili: Tools → Port; kartı çıkarıp takarak hangisinin kaybolduğuna bakın.</li><li>Yanlış kart: Arduino Uno olmalı.</li><li>MATLAB ya da başka bir program portu açık tutuyor: kapatın (MATLAB'da <code>clear s</code>).</li><li>D0 veya D1'e bir şey takılı: çıkarın.</li><li>"Uploading..." yazısı göründüğü anda Uno'nun reset düğmesine basın ve tekrar deneyin.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="pc"><summary>"Access denied" ya da "port busy"<span class="tag">bilgisayar</span></summary><div class="body">
+      <p>Portu başka bir pencere tutuyor: Serial Monitor'ü, Serial Plotter'ı, MATLAB'daki serialport'u (<code>clear s</code>) ya da ikinci bir Arduino IDE penceresini kapatın.</p>
+    </div></details>
+    <details class="issue" data-cat="pc"><summary>Serial Monitor anlamsız karakterler gösteriyor<span class="tag">bilgisayar</span></summary><div class="body">
+      <p>Serial Monitor'ün sağ altındaki hız menüsünü <b>115200 baud</b> yapın.</p>
+    </div></details>
+    <details class="issue" data-cat="pc"><summary>IDE'de Verify/derleme hatası<span class="tag">bilgisayar</span></summary><div class="body">
+      <ol><li>Kart Arduino Uno olmalı (sketch'ler Uno'nun Wire kütüphanesini kullanır).</li><li>Sketch klasörünün adı <code>.ino</code> dosyasının adıyla aynı olmalı.</li><li>Bir ayarı değiştirdiyseniz satır sonundaki <code>;</code> işaretini silmediğinizi kontrol edin.</li><li>İlk kırmızı hata satırını kopyalayıp arayın / bize gönderin.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="power"><summary>3,3 V ya da 5 V rayı 0 V veya yanlış değer gösteriyor<span class="tag">güç</span></summary><div class="body">
+      <ol><li>Uno'nun ON LED'i yanıyor mu? Yanmıyorsa USB kablosu/girişi güç vermiyor.</li><li>Doğrudan Uno'nun 3.3V ve 5V soketlerinde ölçün. Orada doğru ama rayda yanlışsa: ray kablosu gevşek, yanlış rayda ya da ray ortadan kesik (boyunca bip ile kontrol edin).</li><li>Yük altında birkaç onda bir volt düşük olması normal (USB'den gelen 5 V çoğunlukla 4,7–5,0 V'tur).</li></ol>
+    </div></details>
+    <details class="issue" data-cat="i2c"><summary>Tarayıcı hiç cihaz bulamıyor<span class="tag">sensör bağlantısı</span></summary><div class="body">
+      <ol>
+        <li>Modül besleniyor mu? Modülün pinlerinde VIN–GND ölçün: 3,3 V (ya da 5 V).</li>
+        <li>Dönüştürücü <b>iki</b> tarafta da besleniyor mu? HV şeridi 5 V, LV şeridi 3,3 V, GND bağlı. HV ya da LV olmadan hiçbir şey geçirmez.</li>
+        <li>HV ve LV tarafları ters mi? Uno'nun kabloları HV sırasında olmalı.</li>
+        <li>Bir yerde SDA ve SCL yer değiştirmiş mi? A4 → HV1 → LV1 → modül SDA, A5 → HV2 → LV2 → modül SCL yolunu takip edin.</li>
+        <li>Pin dizisinde kötü lehim: USB çekiliyken her pinin modüldeki bakır ped tarafından, ulaşması gereken breadboard şeridine bip ile bakın.</li>
+        <li>Pull-up yok: 06. bölümün 2. adımında SDA/SCL'de 0 V mu ölçtünüz? R1 ve R2'yi ekleyin.</li>
+        <li>Hâlâ yoksa: yedek modülü takın.</li>
+      </ol>
+    </div></details>
+    <details class="issue" data-cat="i2c"><summary>Tarayıcı "Bus timeout: SDA or SCL is held low" diyor<span class="tag">sensör bağlantısı</span></summary><div class="body">
+      <ol><li>Bir sinyal kablosu toprağa değiyor: 6. ve 7. şeritte kaçak bir GND kablosu ya da C1/C2 bacağı arayın.</li><li>Modülün ya da dönüştürücünün LV tarafının beslemesi yok, bu yüzden hattı aşağı çekiyor.</li><li>Modülün SDA/SCL kablolarını çıkarın: zaman aşımı biterse sorun sensör tarafındadır.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="i2c"><summary>Tarayıcı bir cihaz buluyor ama 0x57'de değil<span class="tag">sensör bağlantısı</span></summary><div class="body">
+      <p>Hatta başka bir şey var ya da çip MAX30102 değil. <code>step2_sensor_check</code>'i yalnızca 0x57 listelenirse çalıştırın. Yalnızca farklı bir adres varsa çip farklıdır: yedeği kullanın ve satıcıya bildirin.</p>
+    </div></details>
+    <details class="issue" data-cat="i2c"><summary>Part ID 0x15 yerine 0x11<span class="tag">sensör bağlantısı</span></summary><div class="body">
+      <p>Kartta eski çip <b>MAX30100</b> var (Robotistan'da kaçındığımız karışıklığın aynısı). Yazmaçları farklı, ayarlarımız çalışmaz. Yedeği kontrol edin; ikisi de 0x11 okuyorsa satıcıyla iletişime geçin.</p>
+    </div></details>
+    <details class="issue" data-cat="i2c"><summary>"INT wire" kontrolü başarısız<span class="tag">sensör bağlantısı</span></summary><div class="body">
+      <p>Yalnızca kesme (interrupt) yöntemi için önemli; yazılımımız her 40 ms'de sorgular ve INT olmadan da çalışır. Yine de düzeltmeye değer: modül INT → LV3 → HV3 → D2 yolunu kontrol edin. "Stuck LOW" INT'in toprağa değdiğini ya da dönüştürücünün HV tarafının beslenmediğini gösterir.</p>
+    </div></details>
+    <details class="issue" data-cat="i2c"><summary>Çalışırken "# I2C error" mesajları, ya da tarayıcı sonucu gelip gidiyor<span class="tag">sensör bağlantısı</span></summary><div class="body">
+      <ol><li>Gevşek kablo: her dişi soketi pine sonuna kadar, her erkek ucu breadboard'a sonuna kadar bastırın.</li><li>Parmak hareketi kabloları çekmesin diye şeridi bantlayın.</li><li>Yıpranmış breadboard deliği: kabloyu aynı şeritte başka bir deliğe taşıyın.</li><li>Modülde çatlak lehim: okulda yeniden ısıtın.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="i2c"><summary>oximeter_main sürekli "sensor not ready ... retrying" yazıyor<span class="tag">sensör bağlantısı</span></summary><div class="body">
+      <p>Uno part ID'yi okuyamıyor. <code>step1_i2c_scanner</code>'a dönüp önce bağlantıyı düzeltin.</p>
+    </div></details>
+    <details class="issue" data-cat="signal"><summary>Sensörün kırmızı LED'i yanmıyor<span class="tag">sinyal</span></summary><div class="body">
+      <ol><li>Yalnızca <code>oximeter_main</code> çalışırken (ya da step2'de her döngüde 50 ms) yanar. Programın çalıştığını kontrol edin: Serial Monitor veri gösteriyor mu?</li><li>Kırmızı akım <kbd>r</kbd> ile 0'a mı indi? Uno'nun reset düğmesine basın.</li><li>VIN gerilimi çok düşük (LED tarafında 3,1 V'un altında): VIN'i 5 V ile deneyin.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="signal"><summary>Parmak varken bile okumalar düşük kalıyor<span class="tag">sinyal</span></summary><div class="body">
+      <ol><li>Parmak ters yüzde: cam pencere parmağa bakmalı.</li><li>LED akımlarını <kbd>I</kbd> ve <kbd>R</kbd> ile artırın.</li><li>ADC aralığını düşürün: 2048 nA olana kadar <kbd>a</kbd> (aynı ışık için daha çok sayım).</li><li>Pencerede bant mı var? Çıkarın; pencereyi kuru bir mendille silin.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="signal"><summary>Bir çizgi 262143'te düz duruyor (bayrak 2, doyum)<span class="tag">sinyal</span></summary><div class="body">
+      <ol><li>Çok fazla ışık: o LED'in akımını düşürün (<kbd>i</kbd> ya da <kbd>r</kbd>).</li><li>Ya da <kbd>a</kbd> ile ADC aralığını büyütün.</li><li>Parmağı oda ışığına karşı kapatın; güçlü ışık da doyuma sokabilir.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="signal"><summary>DC iyi ama nabız görünmüyor<span class="tag">sinyal</span></summary><div class="body">
+      <ol><li>Plot modunu <kbd>p</kbd> kullanın; ham modda nabız DC'nin yanında çok küçük kalır.</li><li>Bant fazla sıkı: gevşetin. Fazla gevşek: biraz sıkın.</li><li>Soğuk eller zayıf nabız verir: elleri ısıtın, başka bir parmak deneyin (işaret ya da orta).</li><li>10 s tamamen hareketsiz durun ve konuşmayın.</li><li>LED akımını birkaç mA artırın.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="signal"><summary>Büyük sıçramalar ve sivri tepeler, bayrak 8 (ortam ışığı)<span class="tag">sinyal</span></summary><div class="body">
+      <p>Oda ışığı dedektöre ulaşıyor. Siyah bandı parmak ucu ve bloğun etrafına sarın, pencerelere ve lambalara sırtınızı dönün. Floresan ve LED oda ışıkları 100 Hz'de titreşir; bu sinyale sızabilir.</p>
+    </div></details>
+    <details class="issue" data-cat="signal"><summary>Sinyal yalnızca bilgisayarın şarj aleti takılıyken gürültülü<span class="tag">sinyal</span></summary><div class="body">
+      <p>Kayıtlar sırasında bilgisayarı pilde çalıştırın (Bölüm 2.8 ikisini karşılaştırmayı planlıyor). Sensör kablolarını USB kablosundan uzak tutun.</p>
+    </div></details>
+    <details class="issue" data-cat="numbers"><summary>Nabız 0'da kalıyor<span class="tag">sayılar</span></summary><div class="body">
+      <ol><li>Parmağı koyduktan sonra 7–10 s bekleyin ve kıpırdamayın.</li><li>flags 0 değil mi? Bayrak atımları engeller: 1 = parmak algılanmadı (<code>FINGER_DC_MIN</code>'i düşürün), 2 = doyum, 4 = nabız çok zayıf, 8 = oda ışığı.</li><li>Plot modunda nabız görünmüyor mu? "Nabız görünmüyor" maddesine bakın.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="numbers"><summary>Nabız referansın yaklaşık iki katı (ya da yarısı)<span class="tag">sayılar</span></summary><div class="body">
+      <p>İki kat: dedektör her atımdaki ikinci tümseği (dikrotik dalga) ya da gürültüyü de sayıyor. Yarısı: her ikinci atımı kaçırıyor. İkisi de zayıf ya da gürültülü bir nabızdan kaynaklanır. Önce teması ve ışık yalıtımını iyileştirin; AC grafiğinde her atımda tek temiz tümsek olduğunu kontrol edin. Devam ederse bir kayıt saklayın: eşik (%60) ve refrakter süre (300 ms) onun üzerinde ayarlanabilir.</p>
+    </div></details>
+    <details class="issue" data-cat="numbers"><summary>Parmak üzerindeyken bayrak 1 (parmak yok)<span class="tag">sayılar</span></summary><div class="body">
+      <p>IR DC, <code>FINGER_DC_MIN</code>'in altında. Parmak üzerindeyken IR DC'yi görmek için <kbd>s</kbd> yazın ve <code>FINGER_DC_MIN</code>'i bunun yaklaşık yarısına ayarlayın. Ya da IR akımını artırın.</p>
+    </div></details>
+    <details class="issue" data-cat="numbers"><summary>Bayrak 4 (düşük perfüzyon) çoğu zaman açık<span class="tag">sayılar</span></summary><div class="body">
+      <p>Nabız DC'nin %0,1'inin altında. Önce teması düzeltin (basınç, sıcak parmak). Plot modunda nabız net görünüyor ama bayrak yine geliyorsa <code>PI_MIN</code>'i ilk kayıtlara göre düşürün.</p>
+    </div></details>
+    <details class="issue" data-cat="numbers"><summary>SpO₂ 100'ün üstünde ya da referanstan çok uzak<span class="tag">sayılar</span></summary><div class="body">
+      <ol><li>Kalibrasyondan önce beklenir: 104 − 17·R ödünç bir başlangıç doğrusu.</li><li>06. bölümdeki kırmızı/IR kontrolünü yapın; yer değiştirmiş kanallar anlamsız R verir.</li><li>Kırmızı ve IR DC seviyeleri çok farklıysa akımları dengeleyin (6. adım).</li><li>Kalibrasyon için her 10 s penceresinin R değerini (analyze_recording.m) referans okumalarının yanına toplayın.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="numbers"><summary>"lost samples" 0 değil (s yazın)<span class="tag">sayılar</span></summary><div class="body">
+      <p>Uno geride kaldı. Portu yalnızca tek bir pencerenin okuduğundan emin olun ve art arda hızlı komut yazmaktan kaçının. Bir yükleme ya da reset sonrası birkaç tane zararsızdır.</p>
+    </div></details>
+    <details class="issue" data-cat="build"><summary>Bir parça sallanıyor ya da breadboard'dan çıkıp duruyor<span class="tag">kurulum</span></summary><div class="body">
+      <p>Pinler çok kısa ya da eğik: pense ile düzeltin. Dik bastırın. Modülün kablo şeridini bantlayın ki ağırlığı erkek uçları çekmesin.</p>
+    </div></details>
+    <details class="issue" data-cat="build"><summary>Lehim top gibi görünüyor ya da iki pin birleşmiş<span class="tag">kurulum</span></summary><div class="body">
+      <p>Top: pini ve pedi birlikte 2 s ısıtın, biraz lehim ekleyin. Köprü: temiz, sıcak bir ucu pinlerin arasından çekin; sonra bip moduyla kontrol edin.</p>
+    </div></details>
+    <details class="issue" data-cat="build"><summary>Bir kablonun gerçekten bağlı olduğundan emin değilim<span class="tag">kurulum</span></summary><div class="body">
+      <p>USB çekili, bip modu: bir prob başlangıç pinine, diğeri bitiş pinine (breadboard deliğine değil). Öterse iyi. Hiçbir şey mantıklı gelmediğinde bunu her kablo için yapın.</p>
+    </div></details>
+    <p class="empty" id="noissue" hidden>Eşleşen yok. Daha kısa bir kelime deneyin ya da "hepsi"ni seçin.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="safety">
+  <h2><span class="n">10</span>Güvenlik kuralları</h2>
+  <ul>
+    <li><b>Herhangi bir kabloyu oynatmadan önce USB'yi çekin.</b> Kontrolcü değişikliğe baktıktan sonra yeniden takın.</li>
+    <li>İlk çalıştırmadan önce kısa devre kontrolünü yapın.</li>
+    <li>Isınma, koku, duman ya da ON LED'inin sönmesi: önce fişi çekin, sonra düşünün.</li>
+    <li>5V ve 3V3 raylarını asla birleştirmeyin, IRD veya RD'yi asla bağlamayın.</li>
+    <li>C1'in şeridi toprağa gider.</li>
+    <li>Lehim: havya yaklaşık 350 °C'dir ve kapattıktan sonra dakikalarca sıcak kalır. Her zaman standına koyun. Ortamı havalandırın, yüzünüzü dumandan uzak tutun. Lehimle çalıştıktan sonra ellerinizi yıkayın. Pin keserken kesilen ucu tutun ki fırlamasın.</li>
+    <li>Gönüllüler (Bölüm 2.6): yalnızca onay alındıktan sonra; cihaz USB'den 5 V ile çalışır ve asla teşhis için kullanılmaz. Kendini iyi hissetmeyen herkes testi bırakır.</li>
+  </ul>
+</section>
+
+<!-- ============================================================ -->
+<section id="words">
+  <h2><span class="n">11</span>Duyacağınız terimler</h2>
+  <div class="tbl"><table>
+    <tbody>
+      <tr><td><b>GND (toprak)</b></td><td>0 V referansı. Her parça bunu paylaşmalı, yoksa sinyaller anlamsız olur.</td></tr>
+      <tr><td><b>VIN</b></td><td>Modülün güç girişi. Kendi regülatörleri 1,8 V'u ve LED gerilimini bundan üretir.</td></tr>
+      <tr><td><b>I²C, SDA, SCL</b></td><td>Uno ile sensör arasındaki iki telli bağlantı. SDA veriyi, SCL saati taşır. Her çipin bir adresi vardır; MAX30102'ninki 0x57.</td></tr>
+      <tr><td><b>Pull-up direnci</b></td><td>I²C çipleri bir hattı yalnızca 0 V'a çekebilir; beslemeye bağlı bir direnç onu tekrar yukarı çeker. Modülde ve dönüştürücüde zaten var.</td></tr>
+      <tr><td><b>Seviye dönüştürücü</b></td><td>5 V'luk bir tarafla 3,3 V'luk bir tarafın, ikisi de yanlış gerilim görmeden konuşmasını sağlar.</td></tr>
+      <tr><td><b>Dekuplaj kondansatörü</b></td><td>Bir parçanın güç pinlerinin yanında, hızlı düşüşleri yumuşatan küçük yerel enerji deposu.</td></tr>
+      <tr><td><b>Yazmaç (register)</b></td><td>Sensörün içindeki numaralı bir bellek hücresi. Yazmaçlara değer yazmak onu ayarlar (Tablo 7).</td></tr>
+      <tr><td><b>FIFO</b></td><td>Sensörün 32 örneklik bekleme kuyruğu. Uno onu her 40 ms'de boşaltır.</td></tr>
+      <tr><td><b>Doyum</b></td><td>Işık o kadar fazla ki okuma en büyük değerine (262.143) ulaşır ve değişimleri göstermez.</td></tr>
+      <tr><td><b>AC, DC, perfüzyon indeksi</b></td><td>DC: sabit ışık seviyesi. AC: küçük nabız kısmı. Perfüzyon indeksi: AC bölü DC.</td></tr>
+      <tr><td><b>Baud</b></td><td>USB seri bağlantının hızı. Bizimki iki uçta da 115200.</td></tr>
+      <tr><td><b>Sketch, yükleme, COM portu</b></td><td>Bir Arduino programı; onu Uno'ya kopyalamak; Windows'un Uno'nun USB bağlantısına verdiği ad.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<footer>Nabız oksimetresi projesi · Fulya Hava Aykıt, Serenat Varol, Şamil Mirza Özavar · İstanbul Ticaret Üniversitesi</footer>
+</div>
+
+<script>
+(function () {
+  var KEY = 'oxi-guide-checks-tr';
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
+  var boxes = document.querySelectorAll('.check input[type=checkbox]');
+  function progress() {
+    var done = 0;
+    boxes.forEach(function (b) { if (b.checked) done++; });
+    var el = document.getElementById('prog-before');
+    if (el) el.textContent = boxes.length + ' maddeden ' + done + ' tanesi tamam';
+  }
+  boxes.forEach(function (b) {
+    if (saved[b.id]) b.checked = true;
+    b.addEventListener('change', function () {
+      saved[b.id] = b.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+      progress();
+    });
+  });
+  progress();
+
+  var q = document.getElementById('q');
+  var chips = document.querySelectorAll('.chips button');
+  var issues = document.querySelectorAll('#issues .issue');
+  var cat = 'all';
+  function filter() {
+    var term = (q.value || '').trim().toLocaleLowerCase('tr');
+    var shown = 0;
+    issues.forEach(function (d) {
+      var okCat = cat === 'all' || d.dataset.cat === cat;
+      var okTerm = !term || d.textContent.toLocaleLowerCase('tr').indexOf(term) !== -1;
+      d.hidden = !(okCat && okTerm);
+      if (!d.hidden) shown++;
+      if (term && okCat && okTerm) d.open = true;
+    });
+    document.getElementById('noissue').hidden = shown !== 0;
+  }
+  q.addEventListener('input', filter);
+  chips.forEach(function (c) {
+    c.addEventListener('click', function () {
+      cat = c.dataset.cat;
+      chips.forEach(function (o) { o.setAttribute('aria-pressed', o === c ? 'true' : 'false'); });
+      filter();
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

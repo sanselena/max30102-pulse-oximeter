@@ -1,0 +1,1349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Oximeter Bench Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Barlow+Semi+Condensed:wght@600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column with a sticky section bar; diagrams and tables scroll inside their own boxes. */
+:root {
+  --bg: #f2f4f1;
+  --surface: #ffffff;
+  --ink: #1b2420;
+  --muted: #56665e;
+  --line: #d3dbd5;
+  --accent: #a9531f;      /* copper */
+  --mask: #1d6a4e;        /* solder-mask green */
+  --mask-soft: #e3eee8;
+  --warn: #9a5b00;
+  --warn-soft: #fbf0dc;
+  --stop: #b3261e;
+  --stop-soft: #fbe5e2;
+  --ok: #1f7a3f;
+  --code-bg: #e9eeea;
+  --w5: #d0352b; --w33: #e08600; --wg: #2a2a2a; --wsda: #2b66d1; --wscl: #c9a200; --wint: #24944a;
+  --bb: #f7f6ef; --bb-gap: #e7e5da; --hole: #9a998f;
+  --skin: #f0c9a8; --skin-line: #c99572; --nail: #f7e2d6; --card: #d9b98c; --card-line: #b08f61; --velcro: #3d4a8c; --tapec: #161616; --table: #ebe6dc; --ir: #8b3fb0; --refox: #2f6fb3;
+  --font-display: "Barlow Semi Condensed", "Arial Narrow", Arial, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", Consolas, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111714; --surface: #18201c; --ink: #e5ece7; --muted: #9db0a6; --line: #2d3a33;
+    --accent: #e48b55; --mask: #5cc39a; --mask-soft: #1d2d26; --warn: #f0b24f; --warn-soft: #2e2617;
+    --stop: #ff8a80; --stop-soft: #331c1a; --ok: #6fd18f; --code-bg: #212b26;
+    --w5: #ff6a5c; --w33: #ffb03d; --wg: #c9d2cc; --wsda: #74a6ff; --wscl: #f0d44a; --wint: #63d483;
+    --bb: #252b27; --bb-gap: #1d221f; --hole: #6c736e;
+    --skin: #c99a7a; --skin-line: #8f6247; --nail: #e3c9b9; --card: #8a6d47; --card-line: #6b5232; --velcro: #6f7fd1; --tapec: #000000; --table: #1f2622; --ir: #c27ae6; --refox: #4f8fd6;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111714; --surface: #18201c; --ink: #e5ece7; --muted: #9db0a6; --line: #2d3a33;
+  --accent: #e48b55; --mask: #5cc39a; --mask-soft: #1d2d26; --warn: #f0b24f; --warn-soft: #2e2617;
+  --stop: #ff8a80; --stop-soft: #331c1a; --ok: #6fd18f; --code-bg: #212b26;
+  --w5: #ff6a5c; --w33: #ffb03d; --wg: #c9d2cc; --wsda: #74a6ff; --wscl: #f0d44a; --wint: #63d483;
+  --bb: #252b27; --bb-gap: #1d221f; --hole: #6c736e;
+  --skin: #c99a7a; --skin-line: #8f6247; --nail: #e3c9b9; --card: #8a6d47; --card-line: #6b5232; --velcro: #6f7fd1; --tapec: #000000; --table: #1f2622; --ir: #c27ae6; --refox: #4f8fd6;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.6; }
+.wrap { max-width: 860px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 64px; }
+header.top { padding-block: 40px 24px; border-bottom: 1px solid var(--line); }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--mask); }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.15; }
+h1 { font-size: clamp(34px, 6vw, 52px); margin: 8px 0 12px; }
+h2 { font-size: 32px; margin: 0 0 12px; display: flex; align-items: baseline; gap: 12px; }
+h2 .n { font-family: var(--font-mono); font-size: 15px; color: var(--accent); font-weight: 600; }
+h3 { font-size: 22px; margin: 28px 0 8px; }
+p { margin: 0 0 14px; max-width: 68ch; }
+.lead { font-size: 19px; color: var(--muted); }
+section { padding-block: 40px 8px; border-bottom: 1px solid var(--line); scroll-margin-top: 64px; }
+a { color: var(--mask); }
+code, kbd, .mono { font-family: var(--font-mono); font-size: .88em; }
+code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+kbd { border: 1px solid var(--line); border-bottom-width: 2px; padding: 0 6px; border-radius: 4px; background: var(--surface); }
+pre { background: var(--code-bg); padding: 14px 16px; border-radius: 8px; overflow-x: auto; font-family: var(--font-mono); font-size: 14px; line-height: 1.5; margin: 0 0 16px; }
+ul, ol { padding-left: 22px; margin: 0 0 14px; }
+li { margin: 4px 0; }
+li > ul { margin-top: 4px; }
+
+/* sticky section bar */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+nav.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line); }
+nav.bar .in { max-width: 860px; margin: 0 auto; display: flex; gap: 4px; overflow-x: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 8px; scrollbar-width: thin; }
+nav.bar a { flex: none; font-family: var(--font-mono); font-size: 13px; text-decoration: none; color: var(--muted); padding: 6px 10px; border-radius: 6px; white-space: nowrap; }
+nav.bar a:hover, nav.bar a:focus-visible { background: var(--mask-soft); color: var(--ink); }
+
+/* callouts */
+.note, .warn, .stop { border-radius: 8px; padding: 12px 16px; margin: 0 0 16px; }
+.note { background: var(--mask-soft); }
+.warn { background: var(--warn-soft); }
+.stop { background: var(--stop-soft); }
+.note strong:first-child, .warn strong:first-child, .stop strong:first-child { font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; display: block; margin-bottom: 2px; }
+.note strong:first-child { color: var(--mask); }
+.warn strong:first-child { color: var(--warn); }
+.stop strong:first-child { color: var(--stop); }
+.note p:last-child, .warn p:last-child, .stop p:last-child, .note ul:last-child, .warn ul:last-child, .stop ul:last-child { margin-bottom: 0; }
+
+/* tables */
+.tbl { overflow-x: auto; margin: 0 0 18px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+th { font-family: var(--font-mono); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: var(--bg); }
+tr:last-child td { border-bottom: none; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* part cards */
+.parts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); gap: 14px; margin-bottom: 16px; }
+.part { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; min-width: 0; }
+.part h3 { margin: 0 0 2px; font-size: 21px; }
+.part .qty { font-family: var(--font-mono); font-size: 12px; color: var(--accent); margin-bottom: 8px; }
+.part dl { margin: 0; display: grid; gap: 6px; }
+.part dt { font-family: var(--font-mono); font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.part dd { margin: 0 0 4px; font-size: 15.5px; }
+
+/* wire chips */
+.wc { display: inline-block; width: 22px; height: 6px; border-radius: 3px; vertical-align: middle; margin-right: 6px; }
+.k5 { background: var(--w5); } .k33 { background: var(--w33); } .kg { background: var(--wg); }
+.ksda { background: var(--wsda); } .kscl { background: var(--wscl); } .kint { background: var(--wint); }
+
+/* diagram */
+.diagram { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px; margin: 0 0 8px; }
+.diagram svg { display: block; width: 100%; min-width: 760px; height: auto; font-family: var(--font-mono); }
+.caption { font-size: 14px; color: var(--muted); margin-bottom: 18px; }
+.bb-body { fill: var(--bb); stroke: var(--line); stroke-width: 1.5; }
+.bb-gap { fill: var(--bb-gap); }
+.hole { fill: var(--hole); opacity: .55; }
+.rp { stroke: var(--w5); stroke-width: 2; }
+.rn { stroke: var(--wsda); stroke-width: 2; }
+.lab-b { fill: var(--ink); font-size: 18px; font-weight: 600; }
+.lab-s { fill: var(--ink); font-size: 14px; }
+.lab-xs { fill: var(--muted); font-size: 12px; }
+.lab-xxs { fill: var(--ink); font-size: 9.5px; }
+.t5 { fill: var(--w5); font-weight: 600; } .t33 { fill: var(--w33); font-weight: 600; } .tg { fill: var(--muted); font-weight: 600; }
+.uno { fill: var(--mask-soft); stroke: var(--mask); stroke-width: 2; }
+.pin { fill: var(--surface); stroke: var(--ink); stroke-width: 1.2; }
+.usb { fill: var(--surface); stroke: var(--muted); stroke-width: 1.5; }
+.ls { fill: var(--mask); opacity: .9; }
+.inv { fill: var(--bg); }
+.halo { paint-order: stroke; stroke: var(--bb); stroke-width: 5px; stroke-linejoin: round; }
+.lspin { fill: var(--accent); }
+.leg { stroke: var(--muted); stroke-width: 2; }
+.ecap { fill: var(--wsda); opacity: .85; }
+.ecap-stripe { fill: var(--surface); opacity: .8; }
+.ccap { fill: var(--w33); }
+.holder { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 6 5; }
+.mod { fill: var(--wg); opacity: .92; }
+.chip { fill: var(--accent); }
+.w { fill: none; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.end { stroke: none; }
+.fm { stroke-dasharray: 9 5; }
+.end.fm { stroke-dasharray: none; }
+.c5 { stroke: var(--w5); } .end.c5 { fill: var(--w5); }
+.c33 { stroke: var(--w33); } .end.c33 { fill: var(--w33); }
+.cg { stroke: var(--wg); } .end.cg { fill: var(--wg); }
+.csda { stroke: var(--wsda); } .end.csda { fill: var(--wsda); }
+.cscl { stroke: var(--wscl); } .end.cscl { fill: var(--wscl); }
+.cint { stroke: var(--wint); } .end.cint { fill: var(--wint); }
+
+/* setup illustrations */
+.diagram svg.illus { font-family: var(--font-body); min-width: 640px; }
+.v-line { stroke: var(--muted); stroke-width: 2; fill: none; }
+.w-thin { fill: none; stroke-width: 2.4; stroke-linecap: round; }
+.tape-solid { fill: var(--tapec); opacity: .85; }
+.card { fill: var(--card); stroke: var(--card-line); stroke-width: 1.5; }
+.pcb { fill: var(--wg); }
+.pinmetal { fill: var(--muted); }
+.housing { fill: var(--tapec); }
+.glass { fill: var(--accent); }
+.skin { fill: var(--skin); stroke: var(--skin-line); stroke-width: 2; }
+.skin-flat { fill: var(--skin); }
+.nail { fill: var(--nail); stroke: var(--skin-line); stroke-width: 1; }
+.ray { fill: none; stroke-width: 3; stroke-linecap: round; }
+.ray.red { stroke: var(--w5); }
+.ray.ir { stroke: var(--ir); stroke-dasharray: 6 4; }
+.tape { fill: var(--tapec); opacity: .35; }
+.velcro { fill: var(--velcro); opacity: .9; }
+.lead { fill: none; stroke: var(--muted); stroke-width: 1.2; }
+.dot { fill: var(--accent); }
+.halo2 { paint-order: stroke; stroke: var(--surface); stroke-width: 5px; stroke-linejoin: round; }
+.tablesurf { fill: var(--table); }
+.lap { fill: var(--surface); stroke: var(--ink); stroke-width: 2; }
+.screen { fill: var(--code-bg); }
+.trace { fill: none; stroke-width: 2; }
+.trace.red { stroke: var(--w5); }
+.trace.ir { stroke: var(--ir); }
+.cable { fill: none; stroke: var(--muted); stroke-width: 4; stroke-linecap: round; }
+.uno-b { fill: var(--mask); }
+.bb-b { fill: var(--bb); stroke: var(--line); stroke-width: 1.5; }
+.refox { fill: var(--refox); }
+.refscreen { fill: var(--tapec); }
+.refdigits { fill: #7dff9b; font-family: var(--font-mono); }
+.person { fill: var(--accent); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: var(--muted); margin: 0 0 16px; }
+.protocol { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 10px; margin: 0 0 16px; }
+.protocol div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+.protocol b { font-family: var(--font-display); font-size: 19px; display: block; }
+.protocol .t { font-family: var(--font-mono); font-size: 12px; color: var(--accent); }
+.protocol p { font-size: 14.5px; margin: 4px 0 0; }
+
+/* checklists */
+.check { list-style: none; padding: 0; margin: 0 0 18px; display: grid; gap: 6px; }
+.check li { margin: 0; }
+.check label { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; padding: 8px 12px; border-radius: 8px; background: var(--surface); border: 1px solid var(--line); cursor: pointer; }
+.check input { width: 18px; height: 18px; margin: 4px 0 0; accent-color: var(--mask); }
+.check input:checked + span { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--line); }
+.check .sub { display: block; font-size: 14.5px; color: var(--muted); text-decoration: none; }
+.progress { font-family: var(--font-mono); font-size: 13px; color: var(--muted); margin: -4px 0 12px; }
+
+/* bring-up steps */
+.steps { counter-reset: st; display: grid; gap: 14px; margin-bottom: 16px; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; min-width: 0; }
+.step h3 { margin: 0 0 6px; display: flex; gap: 10px; align-items: baseline; }
+.step h3::before { counter-increment: st; content: counter(st); font-family: var(--font-mono); font-size: 14px; color: var(--bg); background: var(--mask); border-radius: 50%; min-width: 26px; height: 26px; display: inline-grid; place-items: center; }
+.step .t10 { font-family: var(--font-mono); font-size: 12px; color: var(--accent); margin-left: auto; white-space: nowrap; }
+.expect { border-left: 3px solid var(--ok); padding-left: 12px; margin: 8px 0 12px; }
+.expect b { color: var(--ok); font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; display: block; }
+
+/* troubleshooting */
+.finder { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
+.finder input { flex: 1 1 260px; min-width: 0; font: inherit; font-size: 16px; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.finder input:focus-visible, .chips button:focus-visible, .check input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips button { font-family: var(--font-mono); font-size: 12.5px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); cursor: pointer; }
+.chips button[aria-pressed="true"] { background: var(--mask); border-color: var(--mask); color: var(--bg); }
+.issue { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; margin-bottom: 8px; }
+.issue summary { cursor: pointer; padding: 12px 16px; font-weight: 700; list-style: none; display: flex; gap: 10px; align-items: baseline; }
+.issue summary::-webkit-details-marker { display: none; }
+.issue summary::before { content: "+"; font-family: var(--font-mono); color: var(--accent); width: 12px; flex: none; }
+.issue[open] summary::before { content: "–"; }
+.issue .tag { margin-left: auto; font-family: var(--font-mono); font-size: 11px; font-weight: 400; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+.issue .body { padding: 0 16px 12px 38px; }
+.issue .body p, .issue .body ol, .issue .body ul { font-size: 15.5px; }
+.empty { color: var(--muted); font-style: italic; }
+
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 14px; }
+.two > div { min-width: 0; }
+footer { padding-block: 28px; color: var(--muted); font-size: 14px; }
+@media (max-width: 520px) { body { font-size: 16px; } h2 { font-size: 27px; } .issue .body { padding-left: 16px; } }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+</style>
+</head>
+<body>
+
+<nav class="bar" aria-label="Sections"><div class="in">
+  <a href="#setup">Finished setup</a>
+  <a href="#before">Before the day</a>
+  <a href="#parts">Parts</a>
+  <a href="#skills">Basic skills</a>
+  <a href="#wiring">Wiring</a>
+  <a href="#holder">Finger holder</a>
+  <a href="#bringup">First power-on</a>
+  <a href="#firmware">Using the firmware</a>
+  <a href="#record">Recording</a>
+  <a href="#trouble">Troubleshooting</a>
+  <a href="#safety">Safety</a>
+  <a href="#words">Words</a>
+</div></nav>
+
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">MAX30102 + Arduino Uno · Progress Report 3, Sections 2.7–2.8</div>
+  <h1>Oximeter Bench Guide</h1>
+  <p class="lead">Everything the three of us need on assembly day: what each part is, where every wire goes, the order to switch things on, the code to upload, and what to do when something doesn't work.</p>
+  <p>The code lives in the <code>pulse_oximeter</code> folder: three Arduino sketches in <code>firmware/</code> and two MATLAB scripts in <code>matlab/</code>. Figure 5 and Table 10 of the report are the source for the wiring and the test order; this guide adds the practical detail.</p>
+  <p class="mono" style="font-size:13px">Türkçe: <a href="tr.html">Oksimetre Tezgâh Rehberi</a></p>
+  <div class="two">
+    <div class="note"><strong>The day in one line</strong><p>Solder headers → build the breadboard with USB unplugged → check for shorts → power up one stage at a time (Table 10) → tune → record 60 s.</p></div>
+    <div class="note"><strong>Three roles, swap every hour</strong><p><b>Builder</b> handles the parts. <b>Checker</b> reads this guide aloud and confirms every wire against the table. <b>Operator</b> runs the laptop: uploads, Serial Monitor, MATLAB.</p></div>
+  </div>
+</header>
+
+<!-- ============================================================ -->
+<section id="setup">
+  <h2><span class="n">00</span>The finished setup</h2>
+  <p>What it looks like when everything works: the sensor under one fingertip, the reference oximeter on the next finger, and the data on the laptop.</p>
+  <div class="diagram"><svg class="illus" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="vst"><title id="vst">Side view: fingertip on the sensor</title><line x1="20" y1="380" x2="880" y2="380" class="v-line"/><text x="870" y="402" class="lab-xs" text-anchor="end">table</text><polyline points="428,350 428,366 40,366" class="w-thin c33"/><polyline points="430,350 430,369 40,369" class="w-thin cg"/><polyline points="432,350 432,372 40,372" class="w-thin csda"/><polyline points="434,350 434,375 40,375" class="w-thin cscl"/><polyline points="436,350 436,378 40,378" class="w-thin cint"/><rect x="330" y="358" width="34" height="26" rx="2" class="tape-solid"/><rect x="180" y="358" width="34" height="26" rx="2" class="tape-solid"/><text x="40" y="350" class="lab-xs">ribbon taped down, 10 cm to the breadboard</text><rect x="450" y="300" width="160" height="80" rx="3" class="card"/><text x="530" y="346" class="lab-xs" text-anchor="middle">base block</text><rect x="418" y="290" width="204" height="10" rx="2" class="pcb"/><rect x="429" y="300" width="3" height="18" class="pinmetal"/><rect x="422" y="318" width="16" height="32" rx="2" class="housing"/><rect x="490" y="281" width="60" height="9" rx="2" class="glass"/><path d="M 900 188 L 560 188 Q 470 190 452 236 Q 446 280 506 282 L 900 282 Z" class="skin"/><path d="M 478 206 Q 515 184 585 190 L 585 197 Q 520 193 486 214 Z" class="nail"/><path d="M 500 281 C 500 238, 540 238, 540 281" class="ray red"/><path d="M 496 281 C 492 214, 548 214, 544 281" class="ray ir"/><rect x="460" y="262" width="150" height="40" rx="8" class="tape"/><rect x="574" y="176" width="22" height="210" rx="9" class="velcro"/><polyline points="520,268 630,70" class="lead"/><circle cx="520" cy="268" r="3" class="dot"/><text x="636" y="74" class="lab-s halo2" text-anchor="start">fingertip pad flat on the glass window</text><polyline points="585,200 660,110" class="lead"/><circle cx="585" cy="200" r="3" class="dot"/><text x="666" y="114" class="lab-s halo2" text-anchor="start">velcro strap: snug, not tight</text><polyline points="605,285 690,150" class="lead"/><circle cx="605" cy="285" r="3" class="dot"/><text x="696" y="154" class="lab-s halo2" text-anchor="start">black tape around the sides</text><polyline points="470,295 300,150" class="lead"/><circle cx="470" cy="295" r="3" class="dot"/><text x="294" y="154" class="lab-s halo2" text-anchor="end">module, window up</text><polyline points="431,330 300,210" class="lead"/><circle cx="431" cy="330" r="3" class="dot"/><text x="294" y="214" class="lab-s halo2" text-anchor="end">pins hang over the block's edge</text><polyline points="520,236 300,60" class="lead"/><circle cx="520" cy="236" r="3" class="dot"/><text x="294" y="64" class="lab-s halo2" text-anchor="end">red and IR light go in and scatter;</text><text x="294" y="82" class="lab-xs halo2" text-anchor="end">part comes back to the detector</text></svg></div>
+  <div class="caption">Side view. The fingertip pad lies on the glass window. The red and infrared light enter the finger, scatter, and part of it comes back up to the detector next to the LEDs (reflective PPG, Section 1.1). The strap holds the finger with a steady pressure and the black tape keeps room light out.</div>
+  <div class="diagram"><svg class="illus" viewBox="0 0 1000 690" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="vtt"><title id="vtt">Top view: the test table</title><rect x="20" y="20" width="960" height="560" rx="16" class="tablesurf"/><rect x="60" y="50" width="300" height="180" rx="8" class="lap"/><rect x="74" y="64" width="272" height="152" rx="3" class="screen"/><polyline points="84,170 104,170 112,135 120,190 128,166 152,170 172,170 180,135 188,190 196,166 220,170 240,170 248,135 256,190 264,166 288,170 336,170" class="trace ir"/><polyline points="84,122 104,122 112,104 120,132 128,119 152,122 172,122 180,104 188,132 196,119 220,122 240,122 248,104 256,132 264,119 288,122 336,122" class="trace red"/><text x="84" y="86" class="lab-xs">t = 30 s   HR 72   SpO2 96.4</text><path d="M 50 236 L 370 236 L 390 290 L 30 290 Z" class="lap"/><text x="210" y="316" class="lab-s" text-anchor="middle">laptop on battery: Serial Plotter / MATLAB</text><path d="M 330 262 C 380 262, 390 170, 430 168" class="cable"/><rect x="430" y="120" width="130" height="95" rx="8" class="uno-b"/><text x="495" y="172" class="lab-s inv" text-anchor="middle">Arduino Uno</text><path d="M 470 214 L 470 262" class="w-thin csda"/><path d="M 484 214 L 484 262" class="w-thin cscl"/><path d="M 498 214 L 498 262" class="w-thin cint"/><path d="M 512 214 L 512 262" class="w-thin c5"/><path d="M 526 214 L 526 262" class="w-thin cg"/><path d="M 540 214 L 540 262" class="w-thin c33"/><rect x="440" y="250" width="200" height="90" rx="6" class="bb-b"/><rect x="500" y="282" width="46" height="26" rx="2" class="ls"/><circle cx="590" cy="300" r="7" class="ecap"/><ellipse cx="610" cy="300" rx="6" ry="4" class="ccap"/><text x="540" y="364" class="lab-s" text-anchor="middle">breadboard next to the hand</text><rect x="600" y="520" width="56" height="130" rx="28" transform="rotate(-38 628 585)" class="skin"/><rect x="660" y="490" width="250" height="210" rx="60" class="skin"/><rect x="690" y="340" width="40" height="180" rx="20.0" class="skin"/><rect x="697" y="346" width="26" height="24" rx="6" class="nail"/><rect x="752" y="300" width="42" height="220" rx="21.0" class="skin"/><rect x="759" y="306" width="28" height="25" rx="6" class="nail"/><rect x="812" y="330" width="40" height="190" rx="20.0" class="skin"/><rect x="819" y="336" width="26" height="24" rx="6" class="nail"/><rect x="866" y="390" width="34" height="130" rx="17.0" class="skin"/><rect x="873" y="396" width="20" height="20" rx="6" class="nail"/><rect x="660" y="498" width="250" height="40" class="skin-flat"/><rect x="674" y="326" width="72" height="76" rx="6" class="card"/><rect x="690" y="340" width="40" height="180" rx="20.0" class="skin"/><rect x="684" y="350" width="52" height="36" rx="6" class="tape"/><rect x="678" y="360" width="64" height="14" rx="5" class="velcro"/><path d="M 678 330 C 668 318, 652 336, 632 330" class="w-thin c33"/><path d="M 681 330 C 668 318, 655 336, 634 330" class="w-thin cg"/><path d="M 684 330 C 668 318, 658 336, 636 330" class="w-thin csda"/><path d="M 687 330 C 668 318, 661 336, 638 330" class="w-thin cscl"/><path d="M 690 330 C 668 318, 664 336, 640 330" class="w-thin cint"/><rect x="742" y="296" width="62" height="72" rx="12" class="refox"/><rect x="752" y="306" width="42" height="30" rx="3" class="refscreen"/><text x="773" y="326" class="lab-xs refdigits" text-anchor="middle">96 72</text><polyline points="712,380 470,440" class="lead"/><circle cx="712" cy="380" r="3" class="dot"/><text x="464" y="444" class="lab-s halo2" text-anchor="end">our sensor on the index finger</text><polyline points="790,300 840,110" class="lead"/><circle cx="790" cy="300" r="3" class="dot"/><text x="834" y="114" class="lab-s halo2" text-anchor="end">ARTIMED reference on the middle finger</text><polyline points="650,333 470,410" class="lead"/><circle cx="650" cy="333" r="3" class="dot"/><text x="464" y="414" class="lab-s halo2" text-anchor="end">10 cm ribbon, taped</text><polyline points="700,520 600,490" class="lead"/><circle cx="700" cy="520" r="3" class="dot"/><text x="594" y="494" class="lab-s halo2" text-anchor="end">hand rests still, palm down</text><circle cx="60" cy="625" r="20" class="person"/><text x="60" y="630" class="lab-s inv" text-anchor="middle">O</text><text x="90" y="623" class="lab-s">Operator</text><text x="90" y="641" class="lab-xs">runs MATLAB, starts each state</text><circle cx="330" cy="625" r="20" class="person"/><text x="330" y="630" class="lab-s inv" text-anchor="middle">R</text><text x="360" y="623" class="lab-s">Recorder</text><text x="360" y="641" class="lab-xs">reads the ARTIMED every 10 s</text><text x="40" y="530" class="lab-xs">Lamps and windows behind the volunteer, not above the hand.</text><text x="40" y="550" class="lab-xs">Next volunteer: swap the two fingers, or use the other hand.</text><text x="600" y="670" class="lab-s" text-anchor="end">Volunteer: seated, quiet, still</text></svg></div>
+  <div class="caption">Top view of the test table. Both devices are on the same hand (Section 2.6), so they see the same pulse. The breadboard sits right next to the hand because the sensor wires are only 10 cm.</div>
+
+  <h3>One volunteer, start to finish</h3>
+  <ol>
+    <li><b>Before measuring:</b> explain what is measured and that they can stop any time, get consent, give a code (S01, S02…), note the skin tone on the light/medium/dark scale. No nail polish or artificial nails on the two fingers.</li>
+    <li><b>Seat them</b> with the right hand resting palm-down on the table. Sensor on the index finger, ARTIMED on the middle finger. Wait 30 s for both to settle.</li>
+    <li><b>Record the four states of Table 6</b>, 150 s each. The Operator sets <code>state</code> in <code>record_session.m</code> and starts it. The Recorder writes the ARTIMED's SpO₂ and pulse each time MATLAB prints a 10 s mark. The first reading of each state is dropped later.</li>
+    <li><b>Next volunteer:</b> swap the fingers (or use the left hand), so a difference between fingers does not look like a device error.</li>
+  </ol>
+  <div class="protocol">
+    <div><span class="t">state 1 · 150 s</span><b>Rest</b><p>Hand flat and still, no talking.</p></div>
+    <div><span class="t">state 2 · 150 s</span><b>After light activity</b><p>Short stretching routine, then sit and measure.</p></div>
+    <div><span class="t">state 3 · 150 s</span><b>Finger movement</b><p>Move the finger slowly in a fixed pattern during the measurement.</p></div>
+    <div><span class="t">state 4 · 2 × 150 s</span><b>Ambient light</b><p>Room light on; once with the black tape cover, once without.</p></div>
+  </div>
+  <div class="note"><strong>Calibration split</strong><p>The volunteers whose data fit the SpO₂ curve are not the ones used to test its accuracy (Section 2.6). Decide which codes go in which group before the first test.</p></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="before">
+  <h2><span class="n">01</span>Before the day</h2>
+  <p>Do all of this at home, on the laptop you will bring. Each box remembers its tick in your own browser.</p>
+  <div class="progress" id="prog-before"></div>
+  <ul class="check" data-list="before">
+    <li><label><input type="checkbox" id="b1"><span>Install Arduino IDE 2 from arduino.cc/en/software<span class="sub">Default options are fine. It also installs the "Arduino AVR Boards" package the Uno needs.</span></span></label></li>
+    <li><label><input type="checkbox" id="b2"><span>Plug the Uno into the laptop and check it shows up<span class="sub">Arduino IDE → Tools → Port. A clone appears as a COM port (often named "USB-SERIAL CH340"); an original as "Arduino Uno". If nothing appears, see Troubleshooting → "No COM port".</span></span></label></li>
+    <li><label><input type="checkbox" id="b3"><span>Upload Blink to prove the upload path works<span class="sub">File → Examples → 01.Basics → Blink. Tools → Board → Arduino AVR Boards → Arduino Uno. Click the → (Upload) arrow. The small "L" LED on the Uno should blink once a second.</span></span></label></li>
+    <li><label><input type="checkbox" id="b4"><span>Open the three sketches and click Verify (✓) on each<span class="sub"><code>step1_i2c_scanner</code>, <code>step2_sensor_check</code>, <code>oximeter_main</code>. Each must end with "Done compiling" and no red errors. Nothing needs to be connected for this.</span></span></label></li>
+    <li><label><input type="checkbox" id="b5"><span>Check MATLAB can open a COM port<span class="sub">Needs the desktop MATLAB, R2019b or newer (<code>serialport</code>). MATLAB Online cannot reach USB ports. With the Uno plugged in, type <code>serialportlist</code> in MATLAB: your COM port should be listed.</span></span></label></li>
+    <li><label><input type="checkbox" id="b6"><span>Unpack and identify every part using section 02<span class="sub">Check the count against Table 9. Keep the small parts (capacitors, resistors) in a labelled bag.</span></span></label></li>
+    <li><label><input type="checkbox" id="b7"><span>Book the soldering station at school<span class="sub">You need it for the module's 7 header pins and the level shifter's 12 pins. About 30–45 minutes for beginners.</span></span></label></li>
+    <li><label><input type="checkbox" id="b8"><span>Make the finger-holder base (section 05)<span class="sub">A small rigid block: folded cardboard, a matchbox or a piece of foam board, about 4 × 4 × 2 cm.</span></span></label></li>
+    <li><label><input type="checkbox" id="b9"><span>Pack the bag<span class="sub">Uno + USB cable, all parts, multimeter, black tape, velcro, scissors, a marker, the base block, a charged laptop, this guide open offline (save the page or keep the folder).</span></span></label></li>
+  </ul>
+</section>
+
+<!-- ============================================================ -->
+<section id="parts">
+  <h2><span class="n">02</span>Know your parts</h2>
+  <p>For each part: what it looks like, its job in our circuit, how to use it, and the one mistake to avoid.</p>
+  <div class="parts">
+    <article class="part">
+      <h3>Arduino Uno R3</h3><div class="qty">1 · the brain · already owned or the CH340 clone</div>
+      <dl>
+        <dt>Looks like</dt><dd>Blue (or black) board, about the size of a credit card, with a square USB-B socket, a round barrel power jack, and two long rows of black sockets (headers) along the edges. The pin names are printed next to the sockets.</dd>
+        <dt>Job</dt><dd>Reads the sensor over I²C, runs the filters and beat detection, and sends the numbers to the laptop over USB.</dd>
+        <dt>Pins we use</dt><dd><code>5V</code>, <code>3.3V</code>, two <code>GND</code> (power header, next to <code>VIN</code>); <code>A4</code> = SDA and <code>A5</code> = SCL (analog header); <code>D2</code> (digital header, labelled just "2").</dd>
+        <dt>Avoid</dt><dd>Never connect anything to D0/D1 (they carry the USB data), and never connect 5V to 3.3V. The USB cable powers everything; no battery or barrel jack needed.</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>MAX30102 module</h3><div class="qty">2 · the sensor · one is a spare</div>
+      <dl>
+        <dt>Looks like</dt><dd>Small black board (about 2 × 1.5 cm). On one side, a tiny black rectangle with a glass window: that is the MAX30102 chip with its two LEDs and photodetector. A row of 7 holes along one edge: <code>VIN GND SDA SCL INT IRD RD</code> (the printed order on your board is what counts).</dd>
+        <dt>Job</dt><dd>Shines red (660 nm) and infrared (880 nm) light into the fingertip, measures what comes back, and stores the numbers for the Uno to collect.</dd>
+        <dt>How to use</dt><dd>Header pins are soldered so the pins stick out the <em>back</em>, away from the glass window. The fingertip rests flat on the window.</dd>
+        <dt>Avoid</dt><dd><code>IRD</code> and <code>RD</code> stay unconnected. Find the 3-pad "pull-up" solder jumper marked 1.8V / 3.3V and confirm the blob joins the 3.3V side (step 3 of section 06 checks it electrically).</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>Logic level shifter</h3><div class="qty">1 · 4-channel, bidirectional · the translator</div>
+      <dl>
+        <dt>Looks like</dt><dd>Small board with 12 holes in two rows of 6. Four tiny 3-legged black parts (BSS138 transistors) and a few resistors. One row is the high side, labelled <code>HV HV1 HV2 HV3 HV4 GND</code>; the other the low side <code>LV LV1 LV2 LV3 LV4 GND</code>.</dd>
+        <dt>Job</dt><dd>The Uno only reads an I²C line as "high" above 3.5 V; the sensor's lines only go to 3.3 V. The shifter passes each signal across while the Uno side sees 5 V and the sensor side 3.3 V. Channel 1 = SDA, 2 = SCL, 3 = INT, 4 unused.</dd>
+        <dt>How to use</dt><dd>It needs three power connections or it does nothing: <code>HV</code> to 5 V, <code>LV</code> to 3.3 V, <code>GND</code> to ground (either GND pin; we wire both).</dd>
+        <dt>Avoid</dt><dd>Swapping the sides. Some boards say <code>VA/VB</code> or <code>A/B</code>: the side whose supply pin you connect to 3.3 V is the low side, and the sensor goes there.</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>Breadboard, 830 points</h3><div class="qty">1 · the solderless base</div>
+      <dl>
+        <dt>Looks like</dt><dd>White plastic block full of holes. A groove runs down the middle. Long red and blue lines run along both edges.</dd>
+        <dt>Job</dt><dd>Joins wires and parts without solder. Hidden metal clips connect certain holes together (see section 03).</dd>
+        <dt>Avoid</dt><dd>Assuming the edge rails run the full length: on some boards they are cut in the middle. Check with the multimeter's beep mode before using them.</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>140-piece jumper kit</h3><div class="qty">1 box · rigid, pre-cut, pre-bent</div>
+      <dl>
+        <dt>Looks like</dt><dd>Box of short U-shaped wires with bare ends, sorted by length. The colour tells the length, not a function.</dd>
+        <dt>Job</dt><dd>Every connection on the breadboard, and from the breadboard to the Uno's sockets (pick the longest ones for the Uno, and keep the Uno right next to the breadboard).</dd>
+        <dt>How to use</dt><dd>Pick the length that lies flat between the two holes; push the ends straight down until they stop (about 5 mm).</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>Female-to-male wires, 10 cm</h3><div class="qty">1 pack of 40 · the sensor cable</div>
+      <dl>
+        <dt>Looks like</dt><dd>A flat rainbow ribbon of 40 wires. Each wire has a socket (female) on one end and a pin (male) on the other.</dd>
+        <dt>Job</dt><dd>Connect the module (female end onto its header pins) to the breadboard (male end into a hole).</dd>
+        <dt>How to use</dt><dd>Peel off a strip of 5 wires that stay stuck together; it is much easier to tape down. Split only the last few cm at the breadboard end. Write down which colour is VIN, GND, SDA, SCL, INT.</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>10 µF capacitor (C1)</h3><div class="qty">1 · electrolytic, 25 V · polarised</div>
+      <dl>
+        <dt>Looks like</dt><dd>Small cylinder (usually black or blue) with two legs. A light stripe with "–" signs runs down one side.</dd>
+        <dt>Job</dt><dd>A small energy reserve right where the sensor's power wires land, so the LED pulses don't make the supply voltage dip.</dd>
+        <dt>Avoid</dt><dd>It has a direction. The leg under the "–" stripe (also the shorter leg) goes to GND; the other leg to VIN.</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>100 nF capacitor (C2)</h3><div class="qty">pack of 10 · ceramic · use 1</div>
+      <dl>
+        <dt>Looks like</dt><dd>Tiny yellow, blue or orange blob or disc with two legs, printed <code>104</code> (10 × 10⁴ pF = 100 nF).</dd>
+        <dt>Job</dt><dd>Works alongside C1 and filters fast spikes C1 is too slow for.</dd>
+        <dt>How to use</dt><dd>No direction: either way round, across the same two strips as C1.</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>4.7 kΩ resistors (R1, R2)</h3><div class="qty">pack of 10 · backup only</div>
+      <dl>
+        <dt>Looks like</dt><dd>Tiny beige or blue tube with coloured bands: yellow, violet, red, gold (4 bands) or yellow, violet, black, brown, brown (5 bands).</dd>
+        <dt>Job</dt><dd>Extra pull-ups on SDA and SCL, sensor side. Only used if step 3 or 4 in section 06 shows the module's own pull-ups are missing. Normally they stay in the bag.</dd>
+        <dt>How to use</dt><dd>No direction. One leg in the SDA strip (sensor side), the other on the 3.3 V rail; same for SCL.</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>Multimeter</h3><div class="qty">1 · already owned · our eyes for electricity</div>
+      <dl>
+        <dt>Job</dt><dd>Checks voltages before anything delicate is connected, and finds shorts and broken wires.</dd>
+        <dt>How to use</dt><dd>See section 03. Black probe in <code>COM</code>, red probe in the socket marked <code>V</code> (often <code>VΩmA</code>). Never the <code>10A</code> socket.</dd>
+      </dl>
+    </article>
+    <article class="part">
+      <h3>Tape, velcro, batteries</h3><div class="qty">finger holder + reference</div>
+      <dl>
+        <dt>Black electrical tape</dt><dd>Blocks room light around the fingertip and holds the module and its wires still.</dd>
+        <dt>Velcro strap, 10 mm</dt><dd>Hook on one side, loop on the other, so it sticks to itself. Cut about 15 cm. Holds the finger on the sensor with steady, gentle pressure.</dd>
+        <dt>AAA batteries</dt><dd>For the ARTIMED reference oximeter, if its own are flat.</dd>
+      </dl>
+    </article>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="skills">
+  <h2><span class="n">03</span>Basic skills</h2>
+
+  <h3>How a breadboard connects things</h3>
+  <ul>
+    <li>Each numbered <b>strip</b> is 5 holes joined underneath: holes a–e of strip 7 are one connection, holes f–j of strip 7 another. Anything plugged into the same 5-hole strip is connected.</li>
+    <li>The <b>middle groove</b> separates the two halves. A small board with two rows of pins (the level shifter) sits across it, so each pin gets its own strip.</li>
+    <li>The <b>rails</b> along the edges run lengthwise. We use them as supply lines: top pair = 5 V and GND, bottom pair = 3.3 V and GND. <b>Write "5V" and "3V3" on the board with the marker</b>, because both red lines look the same.</li>
+    <li>Two parts in neighbouring strips are <em>not</em> connected. A part with both legs in the same strip is short-circuited and does nothing.</li>
+  </ul>
+
+  <h3>Using the multimeter</h3>
+  <div class="two">
+    <div>
+      <p><b>Measuring a voltage</b> (circuit powered)</p>
+      <ol>
+        <li>Turn the dial to <b>V⎓</b> (DC volts; the V with a straight line). If it has ranges, pick 20 V.</li>
+        <li>Black probe on any GND point, red probe on the point you want.</li>
+        <li>Read the number. A minus sign means the probes are swapped; nothing breaks.</li>
+      </ol>
+    </div>
+    <div>
+      <p><b>Checking a connection</b> (circuit <em>unplugged</em>)</p>
+      <ol>
+        <li>Turn the dial to the <b>beep</b> mode (a speaker or ))) symbol, often shared with the diode symbol).</li>
+        <li>Touch the two probes together: it beeps. That's "connected".</li>
+        <li>Touch two points. Beep = connected. Silence = not connected.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="warn"><strong>Never</strong><p>Use beep or resistance mode on a powered circuit, and never put the red probe in the <code>10A</code> or <code>mA</code> socket for these checks: that turns the meter into a short circuit.</p></div>
+
+  <h3>Soldering the header pins (at school)</h3>
+  <ol>
+    <li>Break off a 7-pin strip for the module (if it didn't come with one) and two 6-pin strips for the shifter. Snap with pliers or bend at the notch.</li>
+    <li><b>Use the breadboard as a jig.</b> Push the long ends of the pins into the breadboard, then lay the board on top so the short ends poke up through its holes.
+      <ul>
+        <li>Module: <b>glass window facing up</b>, so after soldering the long pins come out the back, away from the finger.</li>
+        <li>Level shifter: components facing up. Its two pin rows go into the breadboard across the groove so it sits level.</li>
+      </ul></li>
+    <li>Heat the iron (about 330–350 °C). Wipe the tip on the wet sponge or brass wool and touch a little solder to the tip.</li>
+    <li>Solder <b>one corner pin first</b>: hold the tip against the pin <em>and</em> the copper ring for 1–2 seconds, feed solder into the joint (not onto the iron), remove the solder, then the iron. Check the board is flat; if not, re-melt that one joint and straighten it.</li>
+    <li>Do the opposite corner, then the rest. Each joint should be a small shiny cone hugging the pin. A ball sitting on top, or a dull grey blob, needs re-heating.</li>
+    <li>Look for <b>bridges</b>, solder joining two neighbouring pins. Check every neighbouring pair with beep mode; none should beep. Remove a bridge by dragging a clean hot tip between the pins.</li>
+  </ol>
+  <div class="note"><strong>Pull-up pad</strong><p>While the module is at the station, check the 3-pad jumper. If the blob joins the middle pad to the 1.8V side, melt it off and bridge the middle pad to 3.3V instead. Even on 1.8 V the circuit usually still works through the shifter, but 3.3 V is what the report describes.</p></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="wiring">
+  <h2><span class="n">04</span>Wiring plan</h2>
+  <p>This is Figure 5 laid out hole by hole. The diagram shows where things go; the table is the checklist. Build everything with the <b>USB cable unplugged</b>.</p>
+  <div class="diagram"><svg viewBox="0 0 1120 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="bbt"><title id="bbt">Breadboard wiring plan</title>
+<rect x="300" y="48" width="600" height="408" rx="10" class="bb-body"/>
+<rect x="300" y="238" width="600" height="24" class="bb-gap"/>
+<line x1="318" y1="59" x2="890" y2="59" class="rp"/>
+<text x="906" y="75" class="lab-s t5">+5V</text>
+<rect x="326" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="66" width="8" height="8" rx="1.5" class="hole"/>
+<line x1="318" y1="105" x2="890" y2="105" class="rn"/>
+<text x="906" y="99" class="lab-s tg">GND</text>
+<rect x="326" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="90" width="8" height="8" rx="1.5" class="hole"/>
+<line x1="318" y1="399" x2="890" y2="399" class="rp"/>
+<text x="906" y="415" class="lab-s t33">+3V3</text>
+<rect x="326" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="406" width="8" height="8" rx="1.5" class="hole"/>
+<line x1="318" y1="445" x2="890" y2="445" class="rn"/>
+<text x="906" y="439" class="lab-s tg">GND</text>
+<rect x="326" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="430" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="134" class="lab-xs" text-anchor="end">a</text>
+<rect x="326" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="126" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="158" class="lab-xs" text-anchor="end">b</text>
+<rect x="326" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="150" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="182" class="lab-xs" text-anchor="end">c</text>
+<rect x="326" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="174" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="206" class="lab-xs" text-anchor="end">d</text>
+<rect x="326" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="198" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="230" class="lab-xs" text-anchor="end">e</text>
+<rect x="326" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="222" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="278" class="lab-xs" text-anchor="end">f</text>
+<rect x="326" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="270" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="302" class="lab-xs" text-anchor="end">g</text>
+<rect x="326" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="294" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="326" class="lab-xs" text-anchor="end">h</text>
+<rect x="326" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="318" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="350" class="lab-xs" text-anchor="end">i</text>
+<rect x="326" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="342" width="8" height="8" rx="1.5" class="hole"/>
+<text x="312" y="374" class="lab-xs" text-anchor="end">j</text>
+<rect x="326" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="350" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="374" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="398" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="422" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="446" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="470" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="494" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="518" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="542" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="566" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="590" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="614" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="638" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="662" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="686" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="710" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="734" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="758" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="782" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="806" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="830" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="854" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<rect x="878" y="366" width="8" height="8" rx="1.5" class="hole"/>
+<text x="330" y="117" class="lab-xs" text-anchor="middle">1</text>
+<text x="330" y="392" class="lab-xs" text-anchor="middle">1</text>
+<text x="426" y="117" class="lab-xs" text-anchor="middle">5</text>
+<text x="426" y="392" class="lab-xs" text-anchor="middle">5</text>
+<text x="546" y="117" class="lab-xs" text-anchor="middle">10</text>
+<text x="546" y="392" class="lab-xs" text-anchor="middle">10</text>
+<text x="666" y="117" class="lab-xs" text-anchor="middle">15</text>
+<text x="666" y="392" class="lab-xs" text-anchor="middle">15</text>
+<text x="786" y="117" class="lab-xs" text-anchor="middle">20</text>
+<text x="786" y="392" class="lab-xs" text-anchor="middle">20</text>
+<rect x="24" y="70" width="190" height="400" rx="12" class="uno"/>
+<text x="119" y="104" class="lab-b" text-anchor="middle">Arduino Uno</text>
+<text x="119" y="124" class="lab-xs" text-anchor="middle">(pins drawn by function,</text>
+<text x="119" y="138" class="lab-xs" text-anchor="middle">not by position)</text>
+<rect x="206" y="174" width="16" height="12" rx="2" class="pin"/>
+<text x="198" y="185" class="lab-s" text-anchor="end">5V</text>
+<rect x="206" y="209" width="16" height="12" rx="2" class="pin"/>
+<text x="198" y="220" class="lab-s" text-anchor="end">GND</text>
+<rect x="206" y="244" width="16" height="12" rx="2" class="pin"/>
+<text x="198" y="255" class="lab-s" text-anchor="end">3.3V</text>
+<rect x="206" y="279" width="16" height="12" rx="2" class="pin"/>
+<text x="198" y="290" class="lab-s" text-anchor="end">GND</text>
+<rect x="206" y="324" width="16" height="12" rx="2" class="pin"/>
+<text x="198" y="335" class="lab-s" text-anchor="end">A4 / SDA</text>
+<rect x="206" y="359" width="16" height="12" rx="2" class="pin"/>
+<text x="198" y="370" class="lab-s" text-anchor="end">A5 / SCL</text>
+<rect x="206" y="394" width="16" height="12" rx="2" class="pin"/>
+<text x="198" y="405" class="lab-s" text-anchor="end">D2</text>
+<rect x="10" y="425" width="34" height="30" rx="3" class="usb"/><text x="54" y="445" class="lab-xs">USB to laptop</text>
+<polyline points="222,180 262,180 262,70 330,70" class="w c5"/>
+<circle cx="222" cy="180" r="5" class="end c5"/>
+<circle cx="330" cy="70" r="5" class="end c5"/>
+<polyline points="222,215 270,215 270,94 354,94" class="w cg"/>
+<circle cx="222" cy="215" r="5" class="end cg"/>
+<circle cx="354" cy="94" r="5" class="end cg"/>
+<polyline points="222,250 262,250 262,410 330,410" class="w c33"/>
+<circle cx="222" cy="250" r="5" class="end c33"/>
+<circle cx="330" cy="410" r="5" class="end c33"/>
+<polyline points="222,285 254,285 254,434 354,434" class="w cg"/>
+<circle cx="222" cy="285" r="5" class="end cg"/>
+<circle cx="354" cy="434" r="5" class="end cg"/>
+<polyline points="222,330 278,330 278,28 450,28 450,130" class="w csda"/>
+<circle cx="222" cy="330" r="5" class="end csda"/>
+<circle cx="450" cy="130" r="5" class="end csda"/>
+<polyline points="222,365 286,365 286,20 474,20 474,130" class="w cscl"/>
+<circle cx="222" cy="365" r="5" class="end cscl"/>
+<circle cx="474" cy="130" r="5" class="end cscl"/>
+<polyline points="222,400 294,400 294,12 546,12 546,130" class="w cint"/>
+<circle cx="222" cy="400" r="5" class="end cint"/>
+<circle cx="546" cy="130" r="5" class="end cint"/>
+<rect x="434" y="212" width="152" height="76" rx="4" class="ls"/>
+<text x="510.0" y="247" class="lab-s inv" text-anchor="middle">level shifter</text>
+<text x="510.0" y="262" class="lab-xs inv" text-anchor="middle">HV top · LV bottom</text>
+<rect x="446" y="222" width="8" height="8" class="lspin"/><rect x="446" y="270" width="8" height="8" class="lspin"/>
+<text x="450" y="208" class="lab-xxs" text-anchor="middle">HV1</text>
+<text x="450" y="301" class="lab-xxs" text-anchor="middle">LV1</text>
+<rect x="470" y="222" width="8" height="8" class="lspin"/><rect x="470" y="270" width="8" height="8" class="lspin"/>
+<text x="474" y="208" class="lab-xxs" text-anchor="middle">HV2</text>
+<text x="474" y="301" class="lab-xxs" text-anchor="middle">LV2</text>
+<rect x="494" y="222" width="8" height="8" class="lspin"/><rect x="494" y="270" width="8" height="8" class="lspin"/>
+<text x="498" y="208" class="lab-xxs" text-anchor="middle">HV</text>
+<text x="498" y="301" class="lab-xxs" text-anchor="middle">LV</text>
+<rect x="518" y="222" width="8" height="8" class="lspin"/><rect x="518" y="270" width="8" height="8" class="lspin"/>
+<text x="522" y="208" class="lab-xxs" text-anchor="middle">GND</text>
+<text x="522" y="301" class="lab-xxs" text-anchor="middle">GND</text>
+<rect x="542" y="222" width="8" height="8" class="lspin"/><rect x="542" y="270" width="8" height="8" class="lspin"/>
+<text x="546" y="208" class="lab-xxs" text-anchor="middle">HV3</text>
+<text x="546" y="301" class="lab-xxs" text-anchor="middle">LV3</text>
+<rect x="566" y="222" width="8" height="8" class="lspin"/><rect x="566" y="270" width="8" height="8" class="lspin"/>
+<text x="570" y="208" class="lab-xxs" text-anchor="middle">HV4</text>
+<text x="570" y="301" class="lab-xxs" text-anchor="middle">LV4</text>
+<polyline points="498,154 498,70" class="w c5"/>
+<circle cx="498" cy="154" r="5" class="end c5"/>
+<circle cx="498" cy="70" r="5" class="end c5"/>
+<polyline points="522,154 522,94" class="w cg"/>
+<circle cx="522" cy="154" r="5" class="end cg"/>
+<circle cx="522" cy="94" r="5" class="end cg"/>
+<polyline points="498,370 498,410" class="w c33"/>
+<circle cx="498" cy="370" r="5" class="end c33"/>
+<circle cx="498" cy="410" r="5" class="end c33"/>
+<polyline points="522,370 522,434" class="w cg"/>
+<circle cx="522" cy="370" r="5" class="end cg"/>
+<circle cx="522" cy="434" r="5" class="end cg"/>
+<line x1="786" y1="298" x2="810" y2="298" class="leg"/>
+<circle cx="798.0" cy="284" r="13" class="ecap"/>
+<rect x="806" y="271" width="7" height="26" class="ecap-stripe"/>
+<text x="770" y="288" class="lab-xs halo" text-anchor="end">C1 10 µF, + leg in 20</text>
+<line x1="786" y1="322" x2="810" y2="322" class="leg"/>
+<ellipse cx="798.0" cy="322" rx="10" ry="7" class="ccap"/>
+<text x="770" y="326" class="lab-xs halo" text-anchor="end">C2 100 nF</text>
+<polyline points="786,370 786,410" class="w c33"/>
+<circle cx="786" cy="370" r="5" class="end c33"/>
+<circle cx="786" cy="410" r="5" class="end c33"/>
+<polyline points="810,370 810,434" class="w cg"/>
+<circle cx="810" cy="370" r="5" class="end cg"/>
+<circle cx="810" cy="434" r="5" class="end cg"/>
+<rect x="930" y="300" width="170" height="270" rx="14" class="holder"/>
+<text x="1015" y="590" class="lab-xs" text-anchor="middle">finger holder</text>
+<rect x="985" y="330" width="100" height="220" rx="6" class="mod"/>
+<rect x="1030" y="420" width="34" height="22" rx="3" class="chip"/>
+<text x="1047" y="465" class="lab-xxs inv" text-anchor="middle">sensor</text>
+<text x="1035" y="350" class="lab-s inv" text-anchor="middle">MAX30102</text>
+<rect x="979" y="367" width="12" height="10" rx="2" class="pin"/>
+<text x="997" y="376" class="lab-xs inv">VIN</text>
+<rect x="979" y="393" width="12" height="10" rx="2" class="pin"/>
+<text x="997" y="402" class="lab-xs inv">GND</text>
+<rect x="979" y="419" width="12" height="10" rx="2" class="pin"/>
+<text x="997" y="428" class="lab-xs inv">SDA</text>
+<rect x="979" y="445" width="12" height="10" rx="2" class="pin"/>
+<text x="997" y="454" class="lab-xs inv">SCL</text>
+<rect x="979" y="471" width="12" height="10" rx="2" class="pin"/>
+<text x="997" y="480" class="lab-xs inv">INT</text>
+<rect x="979" y="497" width="12" height="10" rx="2" class="pin"/>
+<text x="997" y="506" class="lab-xs inv">IRD</text>
+<rect x="979" y="523" width="12" height="10" rx="2" class="pin"/>
+<text x="997" y="532" class="lab-xs inv">RD</text>
+<text x="1000" y="292" class="lab-xs" text-anchor="middle">IRD, RD: leave empty</text>
+<polyline points="979,372 950,372 950,520 786,520 786,346" class="w c33 fm"/>
+<circle cx="979" cy="372" r="5" class="end c33 fm"/>
+<circle cx="786" cy="346" r="5" class="end c33 fm"/>
+<polyline points="979,398 946,398 946,528 810,528 810,346" class="w cg fm"/>
+<circle cx="979" cy="398" r="5" class="end cg fm"/>
+<circle cx="810" cy="346" r="5" class="end cg fm"/>
+<polyline points="979,424 942,424 942,536 450,536 450,346" class="w csda fm"/>
+<circle cx="979" cy="424" r="5" class="end csda fm"/>
+<circle cx="450" cy="346" r="5" class="end csda fm"/>
+<polyline points="979,450 938,450 938,544 474,544 474,346" class="w cscl fm"/>
+<circle cx="979" cy="450" r="5" class="end cscl fm"/>
+<circle cx="474" cy="346" r="5" class="end cscl fm"/>
+<polyline points="979,476 934,476 934,552 546,552 546,346" class="w cint fm"/>
+<circle cx="979" cy="476" r="5" class="end cint fm"/>
+<circle cx="546" cy="346" r="5" class="end cint fm"/>
+<text x="600" y="580" class="lab-xs" text-anchor="middle">dashed: 10 cm female-to-male wires (female end on the module)</text>
+</svg></div>
+  <div class="caption">Strip numbers and letters as printed on most 830-point boards. Exact holes don't matter as long as each wire lands in the right strip and the right half. The level shifter pin order is the common one; follow the labels on your board.</div>
+
+  <h3>Connection table</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>#</th><th>From</th><th>To</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td><span class="wc k5"></span>Uno <code>5V</code></td><td>top + rail (5V)</td><td>5 V supply line</td></tr>
+      <tr><td class="num">2</td><td><span class="wc kg"></span>Uno <code>GND</code></td><td>top – rail</td><td>ground, top</td></tr>
+      <tr><td class="num">3</td><td><span class="wc k33"></span>Uno <code>3.3V</code></td><td>bottom + rail (3V3)</td><td>3.3 V supply line</td></tr>
+      <tr><td class="num">4</td><td><span class="wc kg"></span>Uno second <code>GND</code></td><td>bottom – rail</td><td>ground, bottom (joins both ground rails at the Uno)</td></tr>
+      <tr><td class="num">5</td><td>Level shifter</td><td>across the groove, strips 6–11</td><td>HV row in the top half, LV row in the bottom half</td></tr>
+      <tr><td class="num">6</td><td><span class="wc k5"></span>strip 8 top (<code>HV</code>)</td><td>top + rail (5V)</td><td>powers the Uno side</td></tr>
+      <tr><td class="num">7</td><td><span class="wc kg"></span>strip 9 top (<code>GND</code>)</td><td>top – rail</td><td></td></tr>
+      <tr><td class="num">8</td><td><span class="wc k33"></span>strip 8 bottom (<code>LV</code>)</td><td>bottom + rail (3V3)</td><td>powers the sensor side</td></tr>
+      <tr><td class="num">9</td><td><span class="wc kg"></span>strip 9 bottom (<code>GND</code>)</td><td>bottom – rail</td><td></td></tr>
+      <tr><td class="num">10</td><td><span class="wc ksda"></span>Uno <code>A4</code></td><td>strip 6 top (<code>HV1</code>)</td><td>SDA, Uno side</td></tr>
+      <tr><td class="num">11</td><td><span class="wc kscl"></span>Uno <code>A5</code></td><td>strip 7 top (<code>HV2</code>)</td><td>SCL, Uno side</td></tr>
+      <tr><td class="num">12</td><td><span class="wc kint"></span>Uno <code>D2</code></td><td>strip 10 top (<code>HV3</code>)</td><td>INT, Uno side</td></tr>
+      <tr><td class="num">13</td><td><span class="wc k33"></span>strip 20 bottom</td><td>bottom + rail (3V3)</td><td>sensor power landing (VIN). For the 5 V test, move this wire's rail end to the top + rail.</td></tr>
+      <tr><td class="num">14</td><td><span class="wc kg"></span>strip 21 bottom</td><td>bottom – rail</td><td>sensor ground landing</td></tr>
+      <tr><td class="num">15</td><td>C1 10 µF</td><td>+ leg strip 20, – leg (stripe) strip 21</td><td>decoupling</td></tr>
+      <tr><td class="num">16</td><td>C2 100 nF</td><td>strip 20 and strip 21</td><td>decoupling</td></tr>
+      <tr><td class="num">17</td><td><span class="wc k33"></span>module <code>VIN</code> (F-M)</td><td>strip 20 bottom</td><td></td></tr>
+      <tr><td class="num">18</td><td><span class="wc kg"></span>module <code>GND</code> (F-M)</td><td>strip 21 bottom</td><td></td></tr>
+      <tr><td class="num">19</td><td><span class="wc ksda"></span>module <code>SDA</code> (F-M)</td><td>strip 6 bottom (<code>LV1</code>)</td><td>SDA, sensor side</td></tr>
+      <tr><td class="num">20</td><td><span class="wc kscl"></span>module <code>SCL</code> (F-M)</td><td>strip 7 bottom (<code>LV2</code>)</td><td>SCL, sensor side</td></tr>
+      <tr><td class="num">21</td><td><span class="wc kint"></span>module <code>INT</code> (F-M)</td><td>strip 10 bottom (<code>LV3</code>)</td><td>INT, sensor side</td></tr>
+      <tr><td class="num">–</td><td>module <code>IRD</code>, <code>RD</code></td><td>nothing</td><td>leave empty</td></tr>
+      <tr><td class="num">opt.</td><td>R1 4.7 kΩ / R2 4.7 kΩ</td><td>strip 6 bottom → 3V3 rail / strip 7 bottom → 3V3 rail</td><td>only if section 06 says so</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Build order</h3>
+  <ol>
+    <li>Rails and Uno power (rows 1–4). Stop and do the <b>short check</b> below.</li>
+    <li>Level shifter and its power (5–9).</li>
+    <li>Sensor power landing with C1 and C2 (13–16). Check C1's stripe is on strip 21.</li>
+    <li>Signal wires on the Uno side (10–12).</li>
+    <li>Module power wires only (17–18). SDA, SCL and INT stay off the breadboard for now: section 06 connects them one stage at a time.</li>
+  </ol>
+  <div class="stop"><strong>Short check before the first power-on</strong><p>USB unplugged, meter on beep: touch top + rail and top – rail; then bottom + and bottom –; then top + and bottom +. <b>None of these may beep.</b> A beep means a wire is in the wrong place. Find it before plugging in.</p></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="holder">
+  <h2><span class="n">05</span>Finger holder</h2>
+  <p>Its two jobs (Section 2.8): keep the finger still with a steady pressure, and keep room light out.</p>
+  <ol>
+    <li>Place the module on the base block, glass window up, with the <b>edge that has the pins hanging just over the edge of the block</b>. The wire sockets then hang down beside the block and the module lies flat.</li>
+    <li>Tape the module to the block along its two sides. Keep tape off the glass window; tape glue on the window ruins the signal.</li>
+    <li>Tape the 5-wire ribbon down to the block and to the table, so pulling the finger away does not tug the wires.</li>
+    <li>Put the block right next to the breadboard (the wires are only 10 cm).</li>
+    <li>Velcro: stick one end to the underside of the block with tape, so the strap can wrap over the fingertip and close on itself.</li>
+    <li>Finger on: pad of the fingertip centred on the window, strap snug but not tight. Then wrap a short piece of black tape loosely around fingertip and block to cover the sides from light.</li>
+  </ol>
+  <div class="warn"><strong>Pressure</strong><p>Too tight squeezes the blood out of the fingertip and the pulse almost disappears. Too loose and every movement shows up. Tighten until the finger can't slide, then back off a little. Keep the same strap tension for every volunteer.</p></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="bringup">
+  <h2><span class="n">06</span>First power-on, one stage at a time</h2>
+  <p>This is Table 10 of the report with exact actions. Do the stages in order; if one fails, fix it before going on (section 09). <b>Unplug USB every time you move a wire.</b></p>
+  <div class="steps">
+    <div class="step"><h3>Uno and rails<span class="t10">Table 10 · 1</span></h3>
+      <p>Plug in the USB cable. The Uno's green <code>ON</code> LED lights. Meter on V⎓, black probe on a GND rail:</p>
+      <div class="expect"><b>Expect</b>Top + rail about 5.0 V (4.7–5.2), bottom + rail about 3.3 V (3.2–3.4). Shifter <code>HV</code> strip 5 V, <code>LV</code> strip 3.3 V. Strip 20 bottom (VIN landing) 3.3 V.</div>
+    </div>
+    <div class="step"><h3>Sensor powered, signals not connected<span class="t10">Table 10 · 2</span></h3>
+      <p>Unplug USB. Plug in only the module's VIN and GND wires (17–18). Plug in USB. Measure on the module's own SDA and SCL pins (touch the red probe to the pin or the socket of its loose wire).</p>
+      <div class="expect"><b>Expect</b>About 3.3 V on SDA and SCL: the pull-up pad is on 3.3 V. <b>1.8 V</b> means the pad is on the 1.8 V side (fix at school, or carry on; it usually still works). <b>0 V</b> means the module has no pull-ups: you will need R1 and R2.</div>
+    </div>
+    <div class="step"><h3>I²C scanner<span class="t10">Table 10 · 3</span></h3>
+      <p>Unplug USB. Connect the module's SDA, SCL and INT wires (19–21). Plug in USB. Open <code>step1_i2c_scanner</code>, Upload, open Serial Monitor (magnifier icon top right), set the speed to <b>115200 baud</b>.</p>
+      <pre>I2C scanner - looking for the MAX30102 at 0x57
+  device at 0x57  &lt;- MAX30102
+Done, 1 device(s) found.</pre>
+      <div class="expect"><b>Expect</b>One device at 0x57, repeated every 3 s. Wiggle the sensor wires gently while it runs: the result must not change.</div>
+    </div>
+    <div class="step"><h3>Sensor check<span class="t10">Table 10 · 4</span></h3>
+      <p>Upload <code>step2_sensor_check</code>. Serial Monitor at 115200.</p>
+      <pre>Part ID: 0x15  OK (MAX30102)
+Revision ID: 0x03
+Die temperature: 27.31 C
+INT on D2: idle HIGH, data waiting LOW  -> INT wire OK</pre>
+      <div class="expect"><b>Expect</b>Part ID 0x15, a temperature near room temperature (the chip runs a few degrees warm; holding a finger on it raises it), and "INT wire OK". The revision number can differ.</div>
+    </div>
+    <div class="step"><h3>Raw signal with a finger<span class="t10">Table 10 · 5</span></h3>
+      <p>Upload <code>oximeter_main</code>. The sensor's red LED should now glow faintly (the IR LED is invisible; a phone's front camera sometimes shows it as purple). Close Serial Monitor, open <b>Tools → Serial Plotter</b>, set 115200, type <kbd>w</kbd> in its message box and press Enter. Put a finger on the sensor, strap it, keep still.</p>
+      <div class="expect"><b>Expect</b>Without a finger both lines are low. With a finger both jump up and settle, then show a small regular ripple: your pulse. Type <kbd>p</kbd> to see only the ripple (AC), which is much easier to read. Neither line may sit flat at 262143 (saturation).</div>
+    </div>
+    <div class="step"><h3>Tune LED current and ADC range<span class="t10">Table 10 · 6</span></h3>
+      <p>In Serial Monitor (or the Plotter's message box) type <kbd>s</kbd> to see the settings and the current DC levels. Then adjust:</p>
+      <ul>
+        <li><kbd>I</kbd> / <kbd>i</kbd>: IR LED current up / down by 1 mA. <kbd>R</kbd> / <kbd>r</kbd>: same for red. Each change restarts the filters.</li>
+        <li><kbd>a</kbd>: next ADC range (2048 → 4096 → 8192 → 16384 nA). A larger range takes more light before saturating.</li>
+      </ul>
+      <div class="expect"><b>Expect</b>Aim for both DC values between about 50,000 and 200,000 (around the middle of 0–262,143), roughly equal for red and IR, with a clear ripple in plot mode. Write the final currents down; to keep them, put them in <code>redCurrent</code>, <code>irCurrent</code> and <code>adcRange</code> at the top of the sketch and upload again. The Uno's reset button brings back the values in the code.</div>
+      <p><b>Red/IR check (once):</b> type <kbd>r</kbd> until the red current reads 0.0 mA. The <code>red</code> column must drop to almost nothing. If <code>ir</code> drops instead, set <code>SWAP_RED_IR = true</code> in the sketch.</p>
+      <p><b>Finger threshold (once):</b> note the IR DC with no finger and with a finger (<kbd>s</kbd>). Set <code>FINGER_DC_MIN</code> to about halfway between them (the code's 30,000 is only a starting guess).</p>
+    </div>
+    <div class="step"><h3>60 s rest recording, then 5 V<span class="t10">Table 10 · 7</span></h3>
+      <p>Type <kbd>c</kbd> to go back to CSV. Close the Arduino Serial Monitor and Plotter. Run <code>record_session.m</code> in MATLAB with <code>durationS = 60</code>, then <code>analyze_recording.m</code> on the file (section 08).</p>
+      <p>Then unplug USB, move wire 13's rail end from the 3V3 rail to the 5V rail (VIN = 5 V), plug in, check VIN strip reads 5 V, re-tune, record again and compare the SNR.</p>
+      <div class="expect"><b>Expect</b>A clear peak at your heart rate in the analysis, an SNR value for each supply, and the spectrum heart rate within a few bpm of the firmware's.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="firmware">
+  <h2><span class="n">07</span>Using the firmware</h2>
+  <h3>The three sketches</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Sketch</th><th>When</th><th>What it tells you</th></tr></thead>
+    <tbody>
+      <tr><td><code>step1_i2c_scanner</code></td><td>First time the sensor is wired</td><td>Whether anything answers on the I²C wires, and at which address</td></tr>
+      <tr><td><code>step2_sensor_check</code></td><td>After the scanner finds 0x57</td><td>Right chip (ID 0x15), temperature, INT wire working</td></tr>
+      <tr><td><code>oximeter_main</code></td><td>Everything after that</td><td>The real program from Section 2.7.3: streams data, heart rate, SpO₂ and quality flags</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Uploading any sketch</h3>
+  <ol>
+    <li>File → Open → the <code>.ino</code> file (the folder name must match the file name; keep them as they are).</li>
+    <li>Tools → Board → Arduino AVR Boards → <b>Arduino Uno</b>. Tools → Port → your COM port.</li>
+    <li>Click Upload (→). The Uno's TX/RX LEDs flicker; the IDE says "Done uploading".</li>
+    <li>Open Serial Monitor or Serial Plotter at <b>115200 baud</b>. Opening either one restarts the Uno, which is normal.</li>
+  </ol>
+
+  <h3>What <code>oximeter_main</code> sends</h3>
+  <p>One line per sample, 100 lines per second. Lines starting with <code>#</code> are messages.</p>
+  <pre>t_ms,red,ir,red_ac,ir_ac,hr,spo2,flags
+24130,88412,119634,-41,-312,72,95.8,0</pre>
+  <div class="tbl"><table>
+    <thead><tr><th>Column</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><code>t_ms</code></td><td>Time from the sensor's own clock: sample number × 10 ms. A jump bigger than 10 means samples were lost.</td></tr>
+      <tr><td><code>red</code>, <code>ir</code></td><td>Raw 18-bit readings, 0–262,143. More light reaching the detector = bigger number.</td></tr>
+      <tr><td><code>red_ac</code>, <code>ir_ac</code></td><td>The pulsing part after the two filters (about 0.5–4.6 Hz). Swings around 0.</td></tr>
+      <tr><td><code>hr</code></td><td>Heart rate in bpm, from the last 4 beat intervals. 0 = not enough clean beats yet.</td></tr>
+      <tr><td><code>spo2</code></td><td>104 − 17·R, median of the last 4 beats. 0 = no value yet. <b>Uncalibrated</b> until Section 2.6 is done; a few % off is expected.</td></tr>
+      <tr><td><code>flags</code></td><td>Sum of: 1 no finger, 2 saturation, 4 low perfusion, 8 ambient light. 0 = clean. Example: 9 = no finger + ambient light.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Commands</h3>
+  <p>Type one letter into the Serial Monitor's input box (or the Plotter's message box) and press Enter.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Key</th><th>Effect</th></tr></thead>
+    <tbody>
+      <tr><td><kbd>c</kbd></td><td>CSV output (default; for MATLAB)</td></tr>
+      <tr><td><kbd>p</kbd></td><td>Plot mode: only red and IR AC, labelled, for the Serial Plotter</td></tr>
+      <tr><td><kbd>w</kbd></td><td>Plot mode: raw red and IR</td></tr>
+      <tr><td><kbd>R</kbd> <kbd>r</kbd> · <kbd>I</kbd> <kbd>i</kbd></td><td>Red · IR LED current up / down by 1 mA (0–51 mA)</td></tr>
+      <tr><td><kbd>a</kbd></td><td>Next ADC range</td></tr>
+      <tr><td><kbd>t</kbd></td><td>Die temperature</td></tr>
+      <tr><td><kbd>s</kbd></td><td>Settings, finger yes/no, DC levels, lost samples, I²C errors</td></tr>
+      <tr><td><kbd>?</kbd></td><td>Short help line</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Normal things that look wrong</h3>
+  <ul>
+    <li>Heart rate and SpO₂ show 0 for the first 5–7 s after the finger lands: 1.5 s settling, then it needs a few clean beats.</li>
+    <li>After a jerk of the finger, the values go to 0 and come back within about 3–5 s.</li>
+    <li>The first heart-rate values after a gap can be off for a beat or two before settling.</li>
+    <li>The TX LED on the Uno flickers all the time: that is the data stream.</li>
+    <li>SpO₂ a few % away from the reference: the 104/17 values are borrowed from [9]; our own calibration replaces them.</li>
+  </ul>
+
+  <h3>Settings at the top of the sketch</h3>
+  <p><code>redCurrent</code>, <code>irCurrent</code>, <code>adcRange</code> (start values), <code>FINGER_DC_MIN</code> and <code>PI_MIN</code> (the two thresholds the report leaves "to be determined from the initial recordings"), <code>CAL_A</code> and <code>CAL_B</code> (the calibration line), and <code>SWAP_RED_IR</code>. Change, upload, done.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="record">
+  <h2><span class="n">08</span>Recording with MATLAB</h2>
+  <ol>
+    <li>Upload <code>oximeter_main</code>, tune, then <b>close</b> the Serial Monitor and Plotter. Only one program can hold the COM port.</li>
+    <li>In <code>record_session.m</code>, set <code>port</code> (e.g. <code>"COM5"</code>), <code>durationS</code>, <code>subject</code> (a code like S01, never a name) and <code>state</code>. Run it.</li>
+    <li>Every 10 s it prints a line with the Uno time. The second person reads the ARTIMED screen at that moment and writes SpO₂ and pulse next to that time on paper.</li>
+    <li>It saves e.g. <code>S01_rest_20261112_101500.csv</code> in MATLAB's current folder.</li>
+    <li>Put that name in <code>analyze_recording.m</code> and run it: it prints lost samples, the share of each quality flag, the SNR, the spectrum heart rate vs the firmware's, and R for each 10 s window to put next to the paper readings.</li>
+  </ol>
+  <div class="note"><strong>If MATLAB stops with an error</strong><p>Type <code>clear s</code> in the Command Window to release the COM port before running again or reopening the Arduino Serial Monitor.</p></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="trouble">
+  <h2><span class="n">09</span>Troubleshooting</h2>
+  <p>Find the symptom, try the causes in order. When stuck: unplug, re-check the connection table line by line with the Checker reading it aloud, then try again. Most problems on a first build are one wire in the wrong strip.</p>
+  <div class="finder">
+    <label for="q" class="mono" style="font-size:13px;color:var(--muted)">Search</label>
+    <input id="q" type="search" placeholder="e.g. COM port, 0x57, saturation, flat line">
+    <div class="chips" role="group" aria-label="Filter by area">
+      <button type="button" data-cat="all" aria-pressed="true">all</button>
+      <button type="button" data-cat="pc" aria-pressed="false">laptop &amp; upload</button>
+      <button type="button" data-cat="power" aria-pressed="false">power</button>
+      <button type="button" data-cat="i2c" aria-pressed="false">sensor link</button>
+      <button type="button" data-cat="signal" aria-pressed="false">signal</button>
+      <button type="button" data-cat="numbers" aria-pressed="false">numbers</button>
+      <button type="button" data-cat="build" aria-pressed="false">build</button>
+    </div>
+  </div>
+  <div id="issues">
+    <details class="issue" data-cat="power"><summary>Something gets hot, smells, or the Uno's ON LED goes out when the circuit is connected<span class="tag">power · stop</span></summary><div class="body">
+      <p><b>Unplug the USB cable immediately.</b> This is a short circuit: a supply connected straight to ground.</p>
+      <ol><li>Re-do the short check from section 04 (beep mode, USB unplugged).</li><li>Usual causes: a rail jumper in the wrong rail, VIN and GND swapped on the module, C1 in backwards, a wire landed one strip off so 5V and GND share a strip.</li><li>Feel which part was warm; the fault is around it. If the module got hot, use the spare after fixing the wiring.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="pc"><summary>No COM port appears when the Uno is plugged in<span class="tag">laptop</span></summary><div class="body">
+      <ol><li>Try another USB cable. Many cables only charge and carry no data.</li><li>Try another USB port, directly on the laptop (no hub).</li><li>Clone with CH340: Windows 10/11 usually installs the driver by itself within a minute. If not, install the CH340 driver (CH341SER) from the chip maker WCH's site, then re-plug.</li><li>Device Manager → Ports (COM &amp; LPT): a yellow warning sign means the driver is missing.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="pc"><summary>Upload fails: "programmer is not responding", "not in sync" or a timeout<span class="tag">laptop</span></summary><div class="body">
+      <ol><li>Wrong port selected: Tools → Port, unplug and re-plug to see which one disappears.</li><li>Wrong board: must be Arduino Uno.</li><li>MATLAB or another program has the port open: close it (<code>clear s</code> in MATLAB).</li><li>Something is plugged into D0 or D1: remove it.</li><li>Press the Uno's reset button just as "Uploading..." appears, then try again.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="pc"><summary>"Access denied" or "port busy"<span class="tag">laptop</span></summary><div class="body">
+      <p>Another window holds the port: close Serial Monitor, Serial Plotter, MATLAB's serialport (<code>clear s</code>), or a second Arduino IDE window.</p>
+    </div></details>
+    <details class="issue" data-cat="pc"><summary>Serial Monitor shows gibberish characters<span class="tag">laptop</span></summary><div class="body">
+      <p>Set the speed menu at the bottom right of Serial Monitor to <b>115200 baud</b>.</p>
+    </div></details>
+    <details class="issue" data-cat="pc"><summary>Verify/compile error in the IDE<span class="tag">laptop</span></summary><div class="body">
+      <ol><li>Board must be Arduino Uno (the sketches use the Uno's Wire library).</li><li>The sketch folder name must match the <code>.ino</code> name.</li><li>If you edited a setting, check you kept the <code>;</code> at the end of the line.</li><li>Copy the first red error line and send it to us / look it up.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="power"><summary>3.3 V or 5 V rail reads 0 V or a wrong value<span class="tag">power</span></summary><div class="body">
+      <ol><li>Is the Uno's ON LED lit? If not, the USB cable/port gives no power.</li><li>Measure directly on the Uno's 3.3V and 5V sockets. Right there but wrong on the rail: the rail jumper is loose, in the wrong rail, or the rail is split in the middle (beep along its length).</li><li>A few tenths of a volt low under load is fine (5 V from USB is often 4.7–5.0 V).</li></ol>
+    </div></details>
+    <details class="issue" data-cat="i2c"><summary>Scanner finds no devices<span class="tag">sensor link</span></summary><div class="body">
+      <ol>
+        <li>Is the module powered? Measure VIN–GND on the module's pins: 3.3 V (or 5 V).</li>
+        <li>Is the shifter powered on <b>both</b> sides? HV strip 5 V, LV strip 3.3 V, GND connected. Without HV or LV it passes nothing.</li>
+        <li>HV and LV sides swapped? The Uno's wires must be on the HV row.</li>
+        <li>SDA and SCL swapped somewhere? Follow A4 → HV1 → LV1 → module SDA, A5 → HV2 → LV2 → module SCL.</li>
+        <li>Bad solder joint on the header: with USB unplugged, beep from the module's copper pad side of each pin to the breadboard strip it should reach.</li>
+        <li>No pull-ups: section 06 step 2 measured 0 V on SDA/SCL? Add R1 and R2.</li>
+        <li>Still nothing: swap in the spare module.</li>
+      </ol>
+    </div></details>
+    <details class="issue" data-cat="i2c"><summary>Scanner says "Bus timeout: SDA or SCL is held low"<span class="tag">sensor link</span></summary><div class="body">
+      <ol><li>A signal wire is touching ground: check strips 6 and 7 for a stray GND wire or a leg of C1/C2.</li><li>The module or the shifter's LV side has no power, so it holds the line down.</li><li>Unplug the module's SDA/SCL wires: if the timeout stops, the problem is on the sensor side.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="i2c"><summary>Scanner finds a device, but not at 0x57<span class="tag">sensor link</span></summary><div class="body">
+      <p>Something else is on the bus or the chip is not a MAX30102. Run <code>step2_sensor_check</code> only if 0x57 is listed. A different address alone means a different chip: use the spare and tell the seller.</p>
+    </div></details>
+    <details class="issue" data-cat="i2c"><summary>Part ID is 0x11 instead of 0x15<span class="tag">sensor link</span></summary><div class="body">
+      <p>The board carries a <b>MAX30100</b>, the older chip (the same mix-up we avoided at Robotistan). Its registers are different and our settings won't work. Check the spare; if both read 0x11, contact the seller.</p>
+    </div></details>
+    <details class="issue" data-cat="i2c"><summary>"INT wire" check fails<span class="tag">sensor link</span></summary><div class="body">
+      <p>Only matters for the interrupt method; our firmware polls every 40 ms and works without INT. Still worth fixing: check module INT → LV3 → HV3 → D2. "Stuck LOW" means INT touches ground or the shifter's HV side has no power.</p>
+    </div></details>
+    <details class="issue" data-cat="i2c"><summary>"# I2C error" messages while running, or the scanner result comes and goes<span class="tag">sensor link</span></summary><div class="body">
+      <ol><li>A loose wire: press each F-M socket fully onto its pin and each male end fully into the breadboard.</li><li>Tape the ribbon down so finger movements don't pull it.</li><li>Breadboard holes that are worn: move the wire to another hole in the same strip.</li><li>Cracked solder joint on the module: re-heat it at school.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="i2c"><summary>oximeter_main keeps printing "sensor not ready ... retrying"<span class="tag">sensor link</span></summary><div class="body">
+      <p>The Uno can't read the part ID. Go back to <code>step1_i2c_scanner</code> and fix the link first.</p>
+    </div></details>
+    <details class="issue" data-cat="signal"><summary>Red LED on the sensor doesn't glow<span class="tag">signal</span></summary><div class="body">
+      <ol><li>It only glows while <code>oximeter_main</code> runs (or 50 ms per cycle in step2). Check the program is running: Serial Monitor shows data?</li><li>Red current turned to 0 with <kbd>r</kbd>? Press the Uno's reset button.</li><li>VIN voltage too low (below 3.1 V on the LED side): try VIN at 5 V.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="signal"><summary>Readings stay low even with a finger<span class="tag">signal</span></summary><div class="body">
+      <ol><li>The finger is on the wrong side: the glass window must face the finger.</li><li>Raise the LED currents with <kbd>I</kbd> and <kbd>R</kbd>.</li><li>Lower the ADC range: <kbd>a</kbd> until 2048 nA (more counts per unit of light).</li><li>Tape over the window? Remove it; clean the window with a dry tissue.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="signal"><summary>A line sits flat at 262143 (flag 2, saturation)<span class="tag">signal</span></summary><div class="body">
+      <ol><li>Too much light: lower that LED's current (<kbd>i</kbd> or <kbd>r</kbd>).</li><li>Or raise the ADC range with <kbd>a</kbd>.</li><li>Cover the finger against room light; strong light can also saturate.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="signal"><summary>DC is fine but there is no visible pulse<span class="tag">signal</span></summary><div class="body">
+      <ol><li>Use plot mode <kbd>p</kbd>; the pulse is tiny next to the DC in raw mode.</li><li>Strap too tight: loosen it. Too loose: tighten a little.</li><li>Cold hands give a weak pulse: warm the hands, try another finger (index or middle).</li><li>Keep completely still and stop talking for 10 s.</li><li>Raise the LED current a few mA.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="signal"><summary>Big jumps and spikes, flag 8 (ambient light)<span class="tag">signal</span></summary><div class="body">
+      <p>Room light reaches the detector. Wrap the black tape around fingertip and block, turn away from windows and lamps. Fluorescent and LED room lights flicker at 100 Hz, which can leak into the signal.</p>
+    </div></details>
+    <details class="issue" data-cat="signal"><summary>Signal is noisy only while the laptop charger is plugged in<span class="tag">signal</span></summary><div class="body">
+      <p>Run the laptop on battery during recordings (Section 2.8 plans to compare both). Keep the sensor wires away from the USB cable.</p>
+    </div></details>
+    <details class="issue" data-cat="numbers"><summary>Heart rate stays 0<span class="tag">numbers</span></summary><div class="body">
+      <ol><li>Wait 7–10 s after placing the finger and keep still.</li><li>flags not 0? A flag blocks beats: 1 = finger not detected (lower <code>FINGER_DC_MIN</code>), 2 = saturation, 4 = pulse too weak, 8 = room light.</li><li>No visible pulse in plot mode? See "no visible pulse".</li></ol>
+    </div></details>
+    <details class="issue" data-cat="numbers"><summary>Heart rate about double (or half) the reference<span class="tag">numbers</span></summary><div class="body">
+      <p>Double: the detector counts a second bump in each beat (the dicrotic wave) or noise. Half: it misses every other beat. Both come from a weak or noisy pulse. Improve contact and light shielding first; check the AC plot shows one clean bump per beat. If it persists, save a recording: the threshold (60 %) and refractory time (300 ms) can be tuned against it.</p>
+    </div></details>
+    <details class="issue" data-cat="numbers"><summary>Flag 1 (no finger) although the finger is on<span class="tag">numbers</span></summary><div class="body">
+      <p>The IR DC is below <code>FINGER_DC_MIN</code>. Type <kbd>s</kbd> to see the IR DC with the finger on, and set <code>FINGER_DC_MIN</code> to about half of it. Or raise the IR current.</p>
+    </div></details>
+    <details class="issue" data-cat="numbers"><summary>Flag 4 (low perfusion) most of the time<span class="tag">numbers</span></summary><div class="body">
+      <p>The pulse is below 0.1 % of the DC. Fix the contact first (pressure, warm finger). If the pulse is clearly visible in plot mode and the flag still shows, lower <code>PI_MIN</code> based on the first recordings.</p>
+    </div></details>
+    <details class="issue" data-cat="numbers"><summary>SpO₂ above 100, or far from the reference<span class="tag">numbers</span></summary><div class="body">
+      <ol><li>Expected before calibration: 104 − 17·R is a borrowed starting line.</li><li>Do the red/IR check from section 06; swapped channels give nonsense R.</li><li>Very different red and IR DC levels: balance the currents (step 6).</li><li>For calibration, collect R per 10 s window (analyze_recording.m) next to the reference readings.</li></ol>
+    </div></details>
+    <details class="issue" data-cat="numbers"><summary>"lost samples" is not 0 (type s)<span class="tag">numbers</span></summary><div class="body">
+      <p>The Uno fell behind. Make sure only one window reads the port, and avoid typing many commands quickly. A few after an upload or reset are harmless.</p>
+    </div></details>
+    <details class="issue" data-cat="build"><summary>A part wobbles or keeps popping out of the breadboard<span class="tag">build</span></summary><div class="body">
+      <p>Header pins too short or bent: straighten with pliers. Push straight down. Tape the module's ribbon so its weight doesn't pull the male ends out.</p>
+    </div></details>
+    <details class="issue" data-cat="build"><summary>Solder joint looks like a ball, or two pins are joined<span class="tag">build</span></summary><div class="body">
+      <p>Ball: re-heat the pin and pad together for 2 s, add a touch of solder. Bridge: drag a clean, hot tip between the pins; check with beep mode afterwards.</p>
+    </div></details>
+    <details class="issue" data-cat="build"><summary>Not sure a wire is really connected<span class="tag">build</span></summary><div class="body">
+      <p>USB unplugged, beep mode: one probe on the start pin, the other on the end pin (not the breadboard hole). Beep = good. Do this for every wire when nothing makes sense.</p>
+    </div></details>
+    <p class="empty" id="noissue" hidden>Nothing matches. Try a shorter word, or pick "all".</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="safety">
+  <h2><span class="n">10</span>Safety rules</h2>
+  <ul>
+    <li><b>Unplug USB before moving any wire.</b> Plug back in only after the Checker has looked at the change.</li>
+    <li>Do the short check before the very first power-on.</li>
+    <li>Hot, smell, smoke, or the ON LED goes out: unplug first, think second.</li>
+    <li>Never connect the 5V and 3V3 rails together, and never connect IRD or RD.</li>
+    <li>C1's stripe goes to ground.</li>
+    <li>Soldering: the iron is about 350 °C and stays hot for minutes after switching off. Always put it back in its stand. Ventilate, and keep your face out of the smoke. Wash hands after handling solder. Hold the cut end when clipping pins so it doesn't fly.</li>
+    <li>Volunteers (Section 2.6): only after consent; the device runs on 5 V from USB and is never used for diagnosis. Anyone who feels unwell stops the test.</li>
+  </ul>
+</section>
+
+<!-- ============================================================ -->
+<section id="words">
+  <h2><span class="n">11</span>Words you will hear</h2>
+  <div class="tbl"><table>
+    <tbody>
+      <tr><td><b>GND (ground)</b></td><td>The 0 V reference. Every part must share it, or signals mean nothing.</td></tr>
+      <tr><td><b>VIN</b></td><td>The module's power input. Its own regulators make the 1.8 V and LED voltages from it.</td></tr>
+      <tr><td><b>I²C, SDA, SCL</b></td><td>The two-wire link between Uno and sensor. SDA carries data, SCL the clock. Each chip has an address; the MAX30102's is 0x57.</td></tr>
+      <tr><td><b>Pull-up resistor</b></td><td>I²C chips can only pull a line down to 0 V; a resistor to the supply pulls it back up. The module and the shifter already have them.</td></tr>
+      <tr><td><b>Level shifter</b></td><td>Lets a 5 V side and a 3.3 V side talk without either seeing the wrong voltage.</td></tr>
+      <tr><td><b>Decoupling capacitor</b></td><td>A small local energy store near a part's power pins that smooths quick dips.</td></tr>
+      <tr><td><b>Register</b></td><td>A numbered memory cell inside the sensor. Writing values to registers sets it up (Table 7).</td></tr>
+      <tr><td><b>FIFO</b></td><td>The sensor's 32-sample waiting line. The Uno empties it every 40 ms.</td></tr>
+      <tr><td><b>Saturation</b></td><td>So much light that the reading hits its maximum (262,143) and stops showing changes.</td></tr>
+      <tr><td><b>AC, DC, perfusion index</b></td><td>DC: the steady light level. AC: the small pulsing part. Perfusion index: AC divided by DC.</td></tr>
+      <tr><td><b>Baud</b></td><td>Speed of the USB serial link. Ours is 115200 on both ends.</td></tr>
+      <tr><td><b>Sketch, upload, COM port</b></td><td>An Arduino program; copying it to the Uno; the name Windows gives the Uno's USB connection.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<footer>Pulse oximeter project · Fulya Hava Aykıt, Serenat Varol, Şamil Mirza Özavar · Istanbul Commerce University</footer>
+</div>
+
+<script>
+(function () {
+  // Checklist: remember ticks per viewer.
+  var KEY = 'oxi-guide-checks';
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
+  var boxes = document.querySelectorAll('.check input[type=checkbox]');
+  function progress() {
+    var done = 0;
+    boxes.forEach(function (b) { if (b.checked) done++; });
+    var el = document.getElementById('prog-before');
+    if (el) el.textContent = done + ' of ' + boxes.length + ' done';
+  }
+  boxes.forEach(function (b) {
+    if (saved[b.id]) b.checked = true;
+    b.addEventListener('change', function () {
+      saved[b.id] = b.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+      progress();
+    });
+  });
+  progress();
+
+  // Troubleshooting finder
+  var q = document.getElementById('q');
+  var chips = document.querySelectorAll('.chips button');
+  var issues = document.querySelectorAll('#issues .issue');
+  var cat = 'all';
+  function filter() {
+    var term = (q.value || '').trim().toLowerCase();
+    var shown = 0;
+    issues.forEach(function (d) {
+      var okCat = cat === 'all' || d.dataset.cat === cat;
+      var okTerm = !term || d.textContent.toLowerCase().indexOf(term) !== -1;
+      d.hidden = !(okCat && okTerm);
+      if (!d.hidden) shown++;
+      if (term && okCat && okTerm) d.open = true;
+    });
+    document.getElementById('noissue').hidden = shown !== 0;
+  }
+  q.addEventListener('input', filter);
+  chips.forEach(function (c) {
+    c.addEventListener('click', function () {
+      cat = c.dataset.cat;
+      chips.forEach(function (o) { o.setAttribute('aria-pressed', o === c ? 'true' : 'false'); });
+      filter();
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

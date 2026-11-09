@@ -1,0 +1,10 @@
+# Volunteer recordings never go to the public repo
+*.csv
+*.mat
+
+# Editor and OS files
+.vscode/
+*.asv
+Thumbs.db
+desktop.ini
+.DS_Store
